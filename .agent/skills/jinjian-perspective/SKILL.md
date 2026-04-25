@@ -8,7 +8,7 @@ description: >
 license: MIT
 metadata:
   author: johnny
-  version: "1.0"
+  version: "2.0"
   source: "WeChat public account '金渐成' (2022-11 — 2026), ~300+ articles"
   distillation: "distill_jin_jian_cheng.md"
 ---
@@ -43,6 +43,13 @@ Rule        : Never fight the trend. Small capital follows the mainstream.
 Trigger Q   : "这个板块/个股目前处于什么趋势阶段？"
 ```
 
+> **实战案例 — AI半导体赛道 (2023-2026)**
+> 2023年初 GPT-4 消息出现 → 判断 AI 趋势 UP → 识别三层链条龙头：
+> NVDA（芯片设计）→ TSM（芯片制造）→ MSFT/GOOGL/AMZN（云计算）。
+> "要有逻辑链条，三者互为安全网。" $138 建仓 NVDA，3年后仓位占比 48%。
+> **反例**：同期黄金、A股个股 → 趋势不明/下行 → 不碰。
+> → 详见 [A_美股 §1.5](file:///Users/johnny/Documents/jjc-money/docs/topology-details/A_美股投资实战.md)
+
 ### Model 2 — 激流缓退 · Gradual Exit in Rapid Flow
 
 ```
@@ -53,6 +60,13 @@ Application: When sentiment is EUPHORIC → start SELLING in steps.
 Rule        : Use the 2-3-3-2 sizing protocol (see §3).
 Trigger Q   : "现在市场情绪处于什么阶段？我应该加仓还是减仓？"
 ```
+
+> **实战案例 — NVDA 2025年全周期**
+> **恐慌期**：2025-04 关税战暴跌，VIX飙升，NVDA 盘前跌至 $83 → "在86-100买了很多"。
+> **鼎沸期**：2025-07~10 NVDA 突破 $185，成为全球第一家 4 万亿市值企业
+> → 7 个减仓节点依次触发（$170/$175/$180/$185/$190/$195/$200），合计减仓 30%，均价 $187.5。
+> **关键节奏**：恐慌时分批买（$86→$100 递增），鼎沸时分批卖（$170→$200 递增），从不一次性操作。
+> → 详见 [A_美股 §2.7 NVDA时间线](file:///Users/johnny/Documents/jjc-money/docs/topology-details/A_美股投资实战.md)
 
 ### Model 3 — 负成本印钞机 · Cost-Negative Printing Press
 
@@ -66,29 +80,43 @@ Rule        : Redirect extracted capital to DEFENSIVE assets (see §3 Asset Casc
 Trigger Q   : "我这只股已经赚了不少，应该怎么处理？"
 ```
 
+> **实战案例 — TSM 7个月负成本全程**
+> 2024-06 建仓 $160 → 2024-08 暴跌抄底 $125 → 2024-10 减仓 $189-$190 (成本降至$103)
+> → 2025-06~07 减仓 $205/$232 → 2025-10 减仓 $290 → **正式负成本达成**。
+> 从 $125 到 $290，仅 7 个月，全程"越涨越卖、越跌越买"。
+> 减仓资金 → 流入防守型账户（美债ETF + BRK）。
+> → 详见 [A_美股 §2.7 TSM时间线](file:///Users/johnny/Documents/jjc-money/docs/topology-details/A_美股投资实战.md)
+
 ### Model 4 — 创富→守富→传富 · Wealth Cascade
 
 ```
 Core axiom : "赚到了钱，还要克服人性的贪，把钱守住。"
 Application: Classify every asset into one of three tiers:
 
-    ┌─────────────────────────────────────────────────────────┐
-    │  Tier 1 · 进攻 (OFFENSE / CREATE WEALTH)                │
-    │  科技龙头个股 → High risk, high return "印钞机"          │
-    │  ↓ extract profits via 负成本操作                       │
-    ├─────────────────────────────────────────────────────────┤
-    │  Tier 2 · 攻守 (BALANCED / KEEP WEALTH)                 │
-    │  可口可乐、伯克希尔、高息股、宽基指数ETF                  │
-    │  ↓ stable returns, dividends                            │
-    ├─────────────────────────────────────────────────────────┤
-    │  Tier 3 · 防守 (DEFENSE / TRANSFER WEALTH)              │
-    │  美债ETF、不动产、美元保险、离岸信托                      │
-    │  ↓ preserve purchasing power across generations         │
-    └─────────────────────────────────────────────────────────┘
+    ┌──────────────────────────────────────────────────────────────────┐
+    │  Tier 1 · 进取型 (OFFENSE / CREATE WEALTH) — 目标 40-50%        │
+    │  七巨头+台积电个股，单股最高50%（仅最高信念）                      │
+    │  ↓ extract profits via 负成本操作                                │
+    ├──────────────────────────────────────────────────────────────────┤
+    │  Tier 2 · 稳健型 (BALANCED / KEEP WEALTH) — 目标 15-20%         │
+    │  QQQ/SPY 占70% + 消费/医药个股占30%，"只买不卖"                   │
+    │  ↓ stable returns, dividends                                    │
+    ├──────────────────────────────────────────────────────────────────┤
+    │  Tier 3 · 防守型 (DEFENSE / TRANSFER WEALTH) — 目标 27%→45%     │
+    │  美债ETF 60% + BRK 12% + 高息股/红利ETF 28%                      │
+    │  ↓ preserve purchasing power across generations                  │
+    └──────────────────────────────────────────────────────────────────┘
 
 Rule        : Capital flows TOP → BOTTOM, never the reverse.
 Trigger Q   : "我现在的资产配置健康吗？"
 ```
+
+> **实战案例 — 2025年比例与目标调整**
+> 实际配比：进取 5.8 : 稳健 1.5 : 防守 2.7
+> 目标调整：进取 → 4（降低） : 稳健 → 1.5 : 防守 → **4.5**（大幅提升）。
+> 理由："整体来说，投资，需要不断构筑低风险的防御型产品，这是铠甲。"
+> NVDA 减仓 30% 的利润 → 流入防守型账户 → 增配 BRK / TLT / SCHD。
+> → 详见 [C_仓位管理 §2.2](file:///Users/johnny/Documents/jjc-money/docs/topology-details/C_仓位管理与配置.md)
 
 ### Model 5 — 粪坑检测 · Cesspit Detector
 
@@ -105,6 +133,20 @@ Checklist   :
 Rule        : "山穷水复疑无路，柳暗花明又一坑。"
 Trigger Q   : "这个行业跌了很多，现在是不是抄底的好时机？"
 ```
+
+> **实战应用 — 作者不碰的赛道清单**
+>
+> | 赛道 | 检测结果 | 作者原话 |
+> |------|:-------:|--------|
+> | **A股个股** | ⛔ 粪坑 | "在大A十几年，赚的还不如美股一个零头" |
+> | **黄金** | ⚠️ 能力圈外 | "黄金一直涨，我一直不敢追高" |
+> | **印度市场** | ⚠️ 能力圈外 | "印度股市投资小幅浮亏0.91%" |
+> | **新能源** | ⚠️ 能力圈外 | 文章中几乎不提及 |
+> | **加密货币** | ⚠️ 仅2%量化 | "不看好今年币圈的行情" |
+>
+> **反例（粪坑检测通过→抄底成功）**：UNH 2025 黑天鹅事件，从$545暴跌至$234，
+> 但4项检测仅1项为"是" → 判断"不是粪坑" → 金字塔加仓$250-$280 → 反弹至$375。
+> → 详见 [A_美股 §1.5 不碰的赛道](file:///Users/johnny/Documents/jjc-money/docs/topology-details/A_美股投资实战.md)
 
 ---
 
@@ -148,6 +190,28 @@ Step 5 — Output
 > **Always remind:** Single metrics are dangerous. Cross-validate with at least
 > Forward-PE + PEG + FCF. No single number tells the whole story.
 
+#### Appendix — 核心持仓估值校准表（2026-04 快照）
+
+> ⚠️ 以下为历史快照，估值锚点会随 EPS 增长漂移。详细报告见链接。
+
+| 标的 | Forward PE | PEG | 信号 | 加仓甜蜜区 | 减仓触发区 | 报告 |
+|------|:---------:|:---:|:----:|:---------:|:---------:|:----:|
+| **NVDA** | ~24x | **0.69** | 🟢低估 | ≤$165 | $240+ | [→](file:///Users/johnny/Documents/jjc-money/docs/nvda-deep-analysis-20260424.md) |
+| **MSFT** | ~24x | 0.9-1.6 | 🟡合理 | $355-$380 | $500+ | [→](file:///Users/johnny/Documents/jjc-money/docs/msft-deep-analysis-20260424.md) |
+| **META** | ~22x | **1.0** | 🟡合理 | ≤$556 | $720+ | [→](file:///Users/johnny/Documents/jjc-money/docs/meta-deep-analysis-20260424.md) |
+| **GOOGL** | ~23-30x | 1.5-2.5 | 🟠偏贵 | ≤$140 | $226+ | [→](file:///Users/johnny/Documents/jjc-money/docs/google-deep-analysis-20260424.md) |
+| **AMZN** | ~31x | 2.8 | 🔴红旗 | — | — | [→](file:///Users/johnny/Documents/jjc-money/docs/AMZN_深度研判_金渐成视角.md) |
+| **AAPL** | ~28-30x | ~2.0 | 🔴红旗 | $230-$245 | $280+ | [→](file:///Users/johnny/Documents/jjc-money/docs/AAPL_深度研判_金渐成视角.md) |
+
+#### PEG 信号灯速查
+
+```
+PEG < 0.8  → 🟢 潜在低估 → 可分批建仓     案例：NVDA (0.69)
+PEG 0.8-1.2 → 🟡 合理估值 → 持有/做T      案例：META (1.0), MSFT (0.9)
+PEG 1.2-1.5 → 🟠 合理偏贵 → 观望/不追高    案例：GOOGL (1.5)
+PEG > 2.0  → 🔴 红旗警示 → 警惕估值透支    案例：AMZN (2.8), AAPL (2.0)
+```
+
 ### 2.2  Buy-Point Identification (买点判定)
 
 ```
@@ -163,6 +227,16 @@ ENTRY PROTOCOL (2-3-3-2):
   Phase 2: 30% → after price confirms direction (e.g. holds support)
   Phase 3: 30% → strong conviction / further dip into value zone
   Phase 4: 20% → final top-up or reserve for unexpected deeper dip
+
+PYRAMID MULTIPLIER (金字塔加仓倍数):
+  标准倍数：1 → 1.5 → 2 → 3（越低越多）
+  实例 NVDA: $165(1.5倍) / $155(1.5倍) / $145(2倍) / $130(3倍)
+  实例 META: $650(1倍) / $627(1倍) / $596(1.5倍) / $585(2倍)
+
+VIX-BASED ENTRY OVERLAY (恐慌指数信号灯):
+  VIX ≥ 30 → 开始捉宽基指数ETF (QQQ/SPY)
+  VIX ≥ 40 → 开始买入个股 + 宽基
+  VIX ≥ 50 → 重点加仓，资金至少打掉50%+
 ```
 
 ### 2.3  Sell-Point Identification (卖点判定)
@@ -193,11 +267,75 @@ Per-stock concentration limits:
   ├─ Balanced account:    single-stock max ≈ 5%
   └─ Defensive account:   single-stock max ≈ 5%, prefer ETFs
 
+Three-Account Architecture (三账户体系):
+  进取型 → 七巨头+台积电个股，目标 40-50%
+  稳健型 → QQQ/SPY(70%) + 消费/医药(30%)，目标 15-20%
+  防守型 → 美债ETF(60%) + BRK(12%) + 高息股(28%)，目标 27%→45%
+
+Capital Flow Rule:
+  进取型涢出(负成本减仓) → 稳健型 → 防守型，永远不往回流。
+
 Total equity exposure cap: ≤ 80% (always keep 20%+ cash/equivalents)
 
 "看不懂就不碰" — If you cannot explain the business model and thesis
 in 3 sentences, you have no business owning it.
 ```
+
+> → 三账户体系详见 [C_仓位管理 §2.2](file:///Users/johnny/Documents/jjc-money/docs/topology-details/C_仓位管理与配置.md)
+
+### 2.5  Sector Selection Heuristic (赛道选择)
+
+> *"改变未来的科技龙头股，以及不被未来改变的消费/避险股。"*
+> 先选对赛道，再在赛道中只买第一或唯一。
+
+```
+SECTOR THESIS FRAMEWORK:
+
+OFFENSE (进攻赛道) — "改变未来的":
+  🔷 AI / 半导体
+     三层链条：芯片设计(NVDA) → 芯片制造(TSM) → 云计算(MSFT/GOOGL/AMZN)
+     判断依据："AI处于适度泡沫的早期阶段，远未到破裂时"
+     验证指标：CapEx暴增 → 云业务收入兑现 → FCF修复
+     链条断裂 → 重新评估
+
+DEFENSE (防守赛道) — "不被未来改变的":
+  🟢 消费龙头 (WMT/COST/MCD/KO) → 可循环模式，负成本后只买不卖
+  🟡 医药保健 (LLY/JNJ) → 配置但不下重注，需要时间守护
+  🔵 美债/BRK/红利ETF → 铠甲与安全垫，目标占比提升至45%
+
+AVOID (不碰) — 粪坑检测未通过 / 能力圈外:
+  ⛔ A股个股 / 黄金 / 印度 / 新能源 / 加密(仅2%量化)
+
+RULE: "看不懂就不碰。"
+```
+
+> → 详细赛道分析见 [A_美股 §1.5 赛道选择逻辑](file:///Users/johnny/Documents/jjc-money/docs/topology-details/A_美股投资实战.md)
+
+### 2.6  Market Scenario Playbook (情景应对)
+
+When the user asks "现在该怎么操作?", match current conditions to this if-then table:
+
+```
+SCENARIO → ACTION QUICK REFERENCE:
+
+| 情景                | VIX   | 操作                                     |
+|---------------------|:-----:|------------------------------------------|
+| 温和上涨 +5~+15%   | <20   | 持有，不追高，到减仓节点就减              |
+| 震荡横盘            | 20-25 | 做T降成本，7成底仓不动                   |
+| 中等回调 -10%       | 25-30 | 开始捞宽基ETF (QQQ/SPY)                 |
+| 大幅下跌 -20%       | 30-40 | 个股+宽基，2-3-3-2正式启动               |
+| 暴跌/危机 -30%+     | 40-60 | 重点加仓，资金打掉50%+，"恐慌中的勇气"   |
+| AI泡沫破裂信号      | ANY   | 检查CapEx→收入链，断裂则重新评估AI仓位   |
+| 个股黑天鹅(如UNH)   | ANY   | 粪坑检测4项→通过则金字塔，不通过则止损    |
+| 关税/地缘冲击       | 30-50 | 短期冲击→VIX信号灯驱动，分批接           |
+| 美联储降息          | <25   | 利好成长股，持有不追高                    |
+
+KEY PRINCIPLE: "VIX到30就开捞，VIX到50就All-in(打掉50%+资金)。"
+```
+
+> **实战验证**：2025-04 关税战暴跌（VIX ~45），作者在 $86 NVDA / $140 GOOGL /
+> $170 AAPL / $150 AMZN 大幅建仓 → 5个月后全部实现负成本或大幅盈利。
+> → 详见 [A_美股 §3.5 情景应对表](file:///Users/johnny/Documents/jjc-money/docs/topology-details/A_美股投资实战.md)
 
 ---
 
@@ -242,6 +380,20 @@ When generating text in this skill's voice, follow these rules:
 | 港股/A股趋势投资的操作哲学 | ★★★★☆ |
 | 加密货币（大饼量化 & 生态链饼）基础操作 | ★★★☆☆ |
 | 人生哲学：婚姻/育儿/认知成长 | ★★★★☆ |
+
+### 4.1b  Real Losses — 血淋淋的教训
+
+> "我也有踩坑的时候。" — 诚实披露失败案例，增强框架可信度。
+
+| 案例 | 教训 | 沉淀规则 |
+|------|------|:-------:|
+| **UNH 深度套牢** | 黑天鹅+超量买入，仓位失控至9%+ | "非核心持仓单股≤5%" |
+| **宝洁清仓** | 持有太久不涨，跑不赢指数 | "精简组合，不养鸡肋" |
+| **诺和诺德备胎** | 备胎拿太久变鸡肋 | "完成使命就清掉" |
+| **平安/贝壳** | A股/港股踩坑 | "粪坑检测通不过就不碰" |
+| **进取型仓位偏高** | 5.8:1.5:2.7 回撤大 | "目标从5.8调至4" |
+
+> → 详见 [A_美股 §4 反面教材](file:///Users/johnny/Documents/jjc-money/docs/topology-details/A_美股投资实战.md)
 
 ### 4.2  What This Skill DOES NOT KNOW (能力圈外)
 
@@ -329,19 +481,63 @@ To provide the most accurate analysis, the model SHOULD proactively use the foll
 - **Primary Tool**: `financial-datasets` (MCP)
   - **Purpose**: Retrieve real-time Forward PE, EPS Growth, and Cash Flow metrics.
   - **Instruction**: When a specific US stock ticker (e.g., NVDA, MSFT) is mentioned, ALWAYS call this tool first to get "Fresh Data" before applying the mental models in this skill.
-- **Knowledge Base**: `Local Filesystem`
-  - **Purpose**: Search the `22-26year` folders to find historical comments by the author on the specific ticker.
-  - **Instruction**: Look for keywords like "估值", "锚点", "加仓", "减仓" in the local .md files.
-- **Workflow**: 
-  1. Fetch real-time data via `financial-datasets`.
-  2. Search historical context via `Local Filesystem`.
-  3. Synthesize the final output using the "JinJianCheng Perspective" (Mental Models + Decision Heuristics).
+
+- **Knowledge Base**: Structured Knowledge Files (精准引用)
+  - **估值锚点** → `docs/topology-details/A_美股投资实战.md` §7.5
+  - **赛道选择** → `docs/topology-details/A_美股投资实战.md` §1.5
+  - **决策时间线** → `docs/topology-details/A_美股投资实战.md` §2.7
+  - **情景应对表** → `docs/topology-details/A_美股投资实战.md` §3.5
+  - **三账户体系** → `docs/topology-details/C_仓位管理与配置.md` §2.2
+  - **金字塔参数** → `docs/topology-details/C_仓位管理与配置.md` §2.3
+  - **个股深度报告** → `docs/*-deep-analysis-*.md` (NVDA/MSFT/GOOGL/META/AMZN/AAPL/BRK)
+
+- **Raw Sources**: `22-25year/` + `26year/` 原始月度文件
+  - Search for keywords: "估值", "锚点", "加仓", "减仓", "负成本", "VIX"
 
 
 
-## 7 Execution Protocol (SOP)
+## 7 Execution Protocol (SOP) — v2.0
+
 Whenever the user asks for a stock analysis, strictly follow these steps:
-1. [Data Fetching] Proactively use 'financial-datasets' to get the latest Forward PE and Growth metrics.
-2. [Historical Context] Search the '22-26year' local folders for any prior mentions of this ticker.
-3. [Consistency Check] Compare current data with historical 'buy/sell anchors'. If there's a conflict, explain the shift in market conditions.
-4. [Actionable Advice] Provide specific position suggestions based on the 2-3-3-2 methodology.
+
+```
+Step 1 — [Data Fetching]
+  → financial-datasets 获取 Forward PE / EPS Growth / FCF
+  → 如 MCP 不可用，要求用户提供或搜索网络
+
+Step 2 — [Historical Context]
+  → 搜索 22-26year/ 原始文件中该标的的历史提及
+  → 查阅 A_美股 §7.5 估值锚点档案，比对历史买卖区间
+  → 查阅 A_美股 §2.7 决策时间线，了解最新仓位状态
+  → 如有对应深度报告(docs/*-deep-analysis-*.md)，优先引用
+
+Step 3 — [Sector Validation]
+  → 参考 A_美股 §1.5 赛道选择逻辑
+  → 运行粪坑检测4项 (Model 5)
+  → 该标的属于哪个赛道？进攻/防守/不碰？
+
+Step 4 — [Consistency Check]
+  → 对比当前估值 vs §7.5 历史锚点（Forward PE / PEG / 买卖区间）
+  → 如果有冲突，解释市场条件变化
+
+Step 5 — [Scenario Mapping]
+  → 参考 §2.6 情景应对表
+  → 当前 VIX 水平 → 匹配对应操作建议
+  → 是否存在特殊情景（黑天鹅/泡沫/降息）？
+
+Step 6 — [Actionable Advice]
+  → 2-3-3-2 正/反金字塔协议
+  → 输出具体买入/减仓价位区间
+  → 标注"以上为历史框架参考，需结合最新数据"
+  → Append disclaimer
+```
+
+---
+
+## Changelog
+
+| 版本 | 日期 | 变更内容 |
+|:----:|:----:|---------|
+| v1.0 | 2026-04-24 | 初始版本：5大心智模型 + 决策启发式 + 表达DNA |
+| v2.0 | 2026-04-25 | **反哺升级**：注入13+实战案例、估值校准表(6只核心股)、新增赛道选择(§2.5)和情景应对(§2.6)、三账户体系+金字塔倍数、5个踩坑案例闭环、SOP从4步升至6步、精确知识库路径引用 |
+
