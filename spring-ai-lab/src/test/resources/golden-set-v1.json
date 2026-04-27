@@ -1,0 +1,32 @@
+[
+  {
+    "id": "ticker_success",
+    "message": "请分析 NVDA 现在的估值和节奏",
+    "expectedMode": "TICKER",
+    "expectedDegradeStatus": "NONE"
+  },
+  {
+    "id": "historical_view",
+    "message": "作者在 2025 年是怎么看 NVDA 的？",
+    "expectedMode": "HISTORICAL_VIEW",
+    "expectedDegradeStatus": "NONE"
+  },
+  {
+    "id": "ticker_degrade_missing_fresh",
+    "message": "帮我看一下 ZZZZ 的当前买卖点",
+    "expectedMode": "TICKER",
+    "expectedDegradeStatus": "DEGRADED"
+  },
+  {
+    "id": "portfolio_downgrade",
+    "message": "我的组合应该怎么配仓位？",
+    "expectedMode": "PERSONAL_PORTFOLIO",
+    "expectedDegradeStatus": "DEGRADED"
+  },
+  {
+    "id": "non_investing_reject",
+    "message": "你帮我做职业规划吧",
+    "expectedMode": "REJECT_NON_INVESTING",
+    "expectedDegradeStatus": "REJECTED"
+  }
+]
