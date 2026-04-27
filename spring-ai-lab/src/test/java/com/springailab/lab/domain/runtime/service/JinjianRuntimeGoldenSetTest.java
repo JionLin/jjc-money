@@ -16,6 +16,7 @@ import com.springailab.lab.domain.runtime.trace.RuntimeTraceStore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
@@ -33,16 +34,15 @@ class JinjianRuntimeGoldenSetTest {
         this.objectMapper = new ObjectMapper();
 
         JinjianRuntimeProperties properties = new JinjianRuntimeProperties();
-        Path skillPath = Path.of("..", ".agent", "skills", "jinjian-perspective", "SKILL.md")
-                .toAbsolutePath().normalize();
+        Path skillPath = resolveFromCwdOrParent(Path.of(".agent", "skills", "jinjian-perspective", "SKILL.md"));
         properties.setSkillPath(skillPath.toString());
         properties.setMinimumSkillVersion("2.0");
         properties.setArchiveRoots(List.of(
-                Path.of("..", "22-25year").toAbsolutePath().normalize().toString(),
-                Path.of("..", "26year").toAbsolutePath().normalize().toString()));
-        properties.setArchiveOverviewPath(Path.of("..", "docs", "indexes", "archive-index.md")
-                .toAbsolutePath().normalize().toString());
-        properties.setDerivedDocRoots(List.of(Path.of("..", "docs").toAbsolutePath().normalize().toString()));
+                resolveFromCwdOrParent(Path.of("22-25year")).toString(),
+                resolveFromCwdOrParent(Path.of("26year")).toString()));
+        properties.setArchiveOverviewPath(resolveFromCwdOrParent(Path.of("docs", "indexes", "archive-index.md"))
+                .toString());
+        properties.setDerivedDocRoots(List.of(resolveFromCwdOrParent(Path.of("docs")).toString()));
 
         SkillLoader skillLoader = new SkillLoader(properties);
         skillLoader.initialize();
@@ -80,5 +80,21 @@ class JinjianRuntimeGoldenSetTest {
     }
 
     private record GoldenCase(String id, String message, String expectedMode, String expectedDegradeStatus) {
+    }
+
+    private static Path resolveFromCwdOrParent(Path relativePath) {
+        Path cwd = Path.of("").toAbsolutePath().normalize();
+        Path direct = cwd.resolve(relativePath).normalize();
+        if (Files.exists(direct)) {
+            return direct;
+        }
+        Path parent = cwd.getParent();
+        if (parent != null) {
+            Path fromParent = parent.resolve(relativePath).normalize();
+            if (Files.exists(fromParent)) {
+                return fromParent;
+            }
+        }
+        return direct;
     }
 }

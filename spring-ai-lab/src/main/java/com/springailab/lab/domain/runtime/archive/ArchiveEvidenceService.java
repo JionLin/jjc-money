@@ -298,7 +298,19 @@ public class ArchiveEvidenceService {
         if (path.isAbsolute()) {
             return path;
         }
-        return Paths.get("").toAbsolutePath().resolve(path).normalize();
+        Path cwd = Paths.get("").toAbsolutePath().normalize();
+        Path direct = cwd.resolve(path).normalize();
+        if (Files.exists(direct)) {
+            return direct;
+        }
+        Path parent = cwd.getParent();
+        if (parent != null) {
+            Path parentResolved = parent.resolve(path).normalize();
+            if (Files.exists(parentResolved)) {
+                return parentResolved;
+            }
+        }
+        return direct;
     }
 
     private record Section(int start, int end, String heading, String text) {

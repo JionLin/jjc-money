@@ -13,7 +13,7 @@ import java.util.List;
 @ConfigurationProperties(prefix = "lab.runtime")
 public class JinjianRuntimeProperties {
 
-    private String skillPath = "../.agent/skills/jinjian-perspective/SKILL.md";
+    private String skillPath = ".agent/skills/jinjian-perspective/SKILL.md";
 
     private String minimumSkillVersion = "2.0";
 
@@ -23,11 +23,11 @@ public class JinjianRuntimeProperties {
 
     private boolean debugEnabled = true;
 
-    private List<String> archiveRoots = new ArrayList<>(List.of("../22-25year", "../26year"));
+    private List<String> archiveRoots = new ArrayList<>(List.of("22-25year", "26year"));
 
-    private String archiveOverviewPath = "../docs/indexes/archive-index.md";
+    private String archiveOverviewPath = "docs/indexes/archive-index.md";
 
-    private List<String> derivedDocRoots = new ArrayList<>(List.of("../docs/topology-details", "../docs/deep-analysis"));
+    private List<String> derivedDocRoots = new ArrayList<>(List.of("docs/topology-details", "docs/deep-analysis"));
 
     private long freshPriceTtlSeconds = 180;
 
