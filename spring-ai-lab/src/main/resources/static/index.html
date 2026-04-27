@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Stream Demo</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        textarea { width: 100%; height: 80px; }
+        #output { border: 1px solid #ddd; min-height: 160px; padding: 12px; white-space: pre-wrap; }
+        .row { margin-top: 12px; }
+    </style>
+</head>
+<body>
+<h3>Chat Stream Demo</h3>
+<div class="row">
+    <label for="conversationId">conversationId</label>
+    <input id="conversationId" value="demo-web-1"/>
+</div>
+<div class="row">
+    <label for="message">message</label>
+    <textarea id="message">杭州今天天气怎么样？</textarea>
+</div>
+<div class="row">
+    <button id="sendBtn">发送流式请求</button>
+    <span id="status">idle</span>
+</div>
+<div class="row">
+    <div id="output"></div>
+</div>
+<script>
+    const sendBtn = document.getElementById("sendBtn");
+    const statusEl = document.getElementById("status");
+    const outputEl = document.getElementById("output");
+
+    sendBtn.addEventListener("click", async () => {
+        outputEl.textContent = "";
+        statusEl.textContent = "streaming";
+        const conversationId = document.getElementById("conversationId").value;
+        const message = document.getElementById("message").value;
+        const response = await fetch("/chat/stream", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ conversationId, message })
+        });
+        if (!response.ok || !response.body) {
+            statusEl.textContent = "error";
+            outputEl.textContent = "请求失败";
+            return;
+        }
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) {
+                statusEl.textContent = "done";
+                break;
+            }
+            outputEl.textContent += decoder.decode(value, { stream: true });
+        }
+    });
+</script>
+</body>
+</html>
