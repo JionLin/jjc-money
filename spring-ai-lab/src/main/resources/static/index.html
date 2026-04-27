@@ -2,60 +2,510 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>Chat Stream Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jinjian v1 Runtime Chat</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        textarea { width: 100%; height: 80px; }
-        #output { border: 1px solid #ddd; min-height: 160px; padding: 12px; white-space: pre-wrap; }
-        .row { margin-top: 12px; }
+        :root {
+            --ink: #102019;
+            --paper: #f7f4ea;
+            --panel: rgba(255, 255, 255, 0.78);
+            --accent: #0f8a5f;
+            --accent-soft: #ccefd9;
+            --warm: #ffdeab;
+            --danger: #b83e3e;
+            --mono: "IBM Plex Mono", "Menlo", "Consolas", monospace;
+            --sans: "Space Grotesk", "Avenir Next", "Segoe UI", sans-serif;
+            --shadow: 0 18px 40px rgba(16, 32, 25, 0.12);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: var(--sans);
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 8% 12%, rgba(15, 138, 95, 0.18), transparent 32%),
+                radial-gradient(circle at 84% 18%, rgba(255, 222, 171, 0.28), transparent 36%),
+                linear-gradient(160deg, #eef8f2 0%, #f7f4ea 52%, #fff6e3 100%);
+            padding: 22px;
+        }
+
+        .shell {
+            max-width: 1080px;
+            margin: 0 auto;
+            background: var(--panel);
+            backdrop-filter: blur(7px);
+            border: 1px solid rgba(16, 32, 25, 0.08);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            animation: shellIn .55s ease;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 20px;
+            background: linear-gradient(120deg, rgba(15, 138, 95, 0.92), rgba(12, 112, 79, 0.9));
+            color: #f4fffa;
+        }
+
+        .title {
+            font-size: 1.12rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .status {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1.35fr 0.85fr;
+            gap: 0;
+        }
+
+        .chat-pane, .meta-pane {
+            padding: 18px;
+        }
+
+        .meta-pane {
+            border-left: 1px dashed rgba(16, 32, 25, 0.18);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.36), rgba(204, 239, 217, 0.2));
+        }
+
+        .field {
+            display: grid;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-size: 0.84rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        input, textarea, button {
+            font-family: inherit;
+            font-size: 0.94rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            border: 1px solid rgba(16, 32, 25, 0.24);
+            border-radius: 10px;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        button {
+            border: 0;
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-weight: 700;
+            cursor: pointer;
+            background: linear-gradient(135deg, #0f8a5f, #0b6e4c);
+            color: #fff;
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 16px rgba(15, 138, 95, 0.24);
+        }
+
+        .mode-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.78rem;
+            border-radius: 999px;
+            padding: 6px 10px;
+            background: var(--accent-soft);
+            color: #0e6042;
+            font-family: var(--mono);
+            margin-bottom: 12px;
+        }
+
+        .answer {
+            min-height: 220px;
+            white-space: pre-wrap;
+            border: 1px solid rgba(16, 32, 25, 0.1);
+            border-radius: 12px;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.96);
+            line-height: 1.55;
+        }
+
+        .answer .typing {
+            display: inline-block;
+            width: 10px;
+            height: 1em;
+            background: rgba(15, 138, 95, 0.45);
+            margin-left: 4px;
+            animation: blink 1s steps(1, end) infinite;
+            vertical-align: bottom;
+        }
+
+        .section-title {
+            margin: 15px 0 8px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            letter-spacing: 0.04em;
+            color: #245745;
+            text-transform: uppercase;
+        }
+
+        .citation-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .citation-card {
+            border: 1px solid rgba(16, 32, 25, 0.12);
+            background: rgba(255, 255, 255, 0.84);
+            border-radius: 10px;
+            padding: 9px 10px;
+        }
+
+        .citation-path {
+            font-family: var(--mono);
+            font-size: 0.74rem;
+            color: #46645b;
+            word-break: break-word;
+        }
+
+        .citation-text {
+            margin-top: 5px;
+            font-size: 0.83rem;
+        }
+
+        .fresh-data {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            border-radius: 10px;
+            padding: 10px;
+            background: rgba(15, 138, 95, 0.1);
+            border: 1px solid rgba(15, 138, 95, 0.25);
+        }
+
+        .disclaimer {
+            margin-top: 10px;
+            padding: 9px 10px;
+            border-radius: 10px;
+            background: rgba(255, 222, 171, 0.45);
+            border: 1px solid rgba(210, 145, 48, 0.25);
+            font-size: 0.82rem;
+        }
+
+        details {
+            margin-top: 12px;
+            border: 1px solid rgba(16, 32, 25, 0.15);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.82);
+            overflow: hidden;
+        }
+
+        summary {
+            list-style: none;
+            padding: 9px 11px;
+            cursor: pointer;
+            font-size: 0.83rem;
+            font-weight: 600;
+            background: rgba(204, 239, 217, 0.35);
+            border-bottom: 1px solid rgba(16, 32, 25, 0.1);
+        }
+
+        summary::-webkit-details-marker { display: none; }
+
+        #debugOutput {
+            margin: 0;
+            padding: 12px;
+            min-height: 130px;
+            max-height: 240px;
+            overflow: auto;
+            font-family: var(--mono);
+            font-size: 0.74rem;
+            line-height: 1.45;
+            background: #f8fbf9;
+            color: #1b3d31;
+        }
+
+        .row {
+            margin-bottom: 10px;
+        }
+
+        .danger {
+            color: var(--danger);
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        @keyframes shellIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 900px) {
+            body { padding: 12px; }
+            .layout { grid-template-columns: 1fr; }
+            .meta-pane { border-left: 0; border-top: 1px dashed rgba(16, 32, 25, 0.18); }
+        }
     </style>
 </head>
 <body>
-<h3>Chat Stream Demo</h3>
-<div class="row">
-    <label for="conversationId">conversationId</label>
-    <input id="conversationId" value="demo-web-1"/>
-</div>
-<div class="row">
-    <label for="message">message</label>
-    <textarea id="message">杭州今天天气怎么样？</textarea>
-</div>
-<div class="row">
-    <button id="sendBtn">发送流式请求</button>
-    <span id="status">idle</span>
-</div>
-<div class="row">
-    <div id="output"></div>
-</div>
-<script>
-    const sendBtn = document.getElementById("sendBtn");
-    const statusEl = document.getElementById("status");
-    const outputEl = document.getElementById("output");
+<div class="shell">
+    <div class="topbar">
+        <div class="title">Jinjian v1 Runtime Chat</div>
+        <div id="status" class="status">idle</div>
+    </div>
 
-    sendBtn.addEventListener("click", async () => {
-        outputEl.textContent = "";
+    <div class="layout">
+        <section class="chat-pane">
+            <div id="modeBadge" class="mode-pill">mode: pending</div>
+            <div id="answer" class="answer"></div>
+
+            <div class="section-title">Fresh Data</div>
+            <div id="freshData" class="fresh-data">No fresh-data payload yet.</div>
+
+            <div class="section-title">Citations</div>
+            <div id="citations" class="citation-list"></div>
+
+            <div id="disclaimer" class="disclaimer">No disclaimer emitted yet.</div>
+        </section>
+
+        <aside class="meta-pane">
+            <div class="field">
+                <label for="conversationId">Conversation ID</label>
+                <input id="conversationId" value="jinjian-web-1">
+            </div>
+
+            <div class="field">
+                <label for="message">Message</label>
+                <textarea id="message">请分析 NVDA 现在是否高估，并结合作者历史观点。</textarea>
+            </div>
+
+            <div class="controls row">
+                <button id="sendBtn">Run Streaming POST</button>
+                <label style="display:flex;align-items:center;gap:6px;font-size:0.8rem;">
+                    <input id="debugMode" type="checkbox" checked>
+                    debug panel
+                </label>
+            </div>
+
+            <details open>
+                <summary>Debug Events</summary>
+                <pre id="debugOutput"></pre>
+            </details>
+        </aside>
+    </div>
+</div>
+
+<script>
+    const statusEl = document.getElementById("status");
+    const modeBadgeEl = document.getElementById("modeBadge");
+    const answerEl = document.getElementById("answer");
+    const freshDataEl = document.getElementById("freshData");
+    const citationsEl = document.getElementById("citations");
+    const disclaimerEl = document.getElementById("disclaimer");
+    const debugEl = document.getElementById("debugOutput");
+
+    const state = {
+        answer: "",
+        citations: [],
+        debug: [],
+        traceMeta: {}
+    };
+
+    function resetUi() {
+        state.answer = "";
+        state.citations = [];
+        state.debug = [];
+        state.traceMeta = {};
         statusEl.textContent = "streaming";
+        modeBadgeEl.textContent = "mode: pending";
+        answerEl.innerHTML = "<span class='typing'></span>";
+        freshDataEl.textContent = "No fresh-data payload yet.";
+        citationsEl.innerHTML = "";
+        disclaimerEl.textContent = "No disclaimer emitted yet.";
+        debugEl.textContent = "";
+    }
+
+    function appendDebug(eventName, payload) {
+        if (!document.getElementById("debugMode").checked) {
+            debugEl.textContent = "(debug disabled)";
+            return;
+        }
+        const entry = { event: eventName, payload };
+        state.debug.push(entry);
+        debugEl.textContent = state.debug.map(item => JSON.stringify(item)).join("\n");
+        debugEl.scrollTop = debugEl.scrollHeight;
+    }
+
+    function renderCitations() {
+        if (!state.citations.length) {
+            citationsEl.innerHTML = "<div class='citation-card'>No citations yet.</div>";
+            return;
+        }
+        citationsEl.innerHTML = state.citations.map(item => `
+            <div class="citation-card">
+                <div class="citation-path">${escapeHtml(item.filePath || "unknown")} @ ${escapeHtml(item.locator || "-")} [${escapeHtml(item.contextType || "UNKNOWN")}]</div>
+                <div class="citation-text">${escapeHtml(item.excerpt || "")}</div>
+            </div>
+        `).join("");
+    }
+
+    function setAnswer(value) {
+        state.answer = value;
+        answerEl.textContent = value;
+    }
+
+    function parseSseChunk(chunk) {
+        const blocks = chunk.split("\n\n").filter(Boolean);
+        return blocks.map(block => {
+            const lines = block.split("\n");
+            let eventName = "message";
+            let dataLine = "";
+            for (const line of lines) {
+                if (line.startsWith("event:")) {
+                    eventName = line.slice(6).trim();
+                } else if (line.startsWith("data:")) {
+                    dataLine += line.slice(5).trim();
+                }
+            }
+            return { eventName, dataLine };
+        });
+    }
+
+    function parsePayload(raw) {
+        try {
+            return JSON.parse(raw);
+        } catch (_) {
+            return { content: raw, metadata: {} };
+        }
+    }
+
+    function handleEvent(eventName, payload) {
+        appendDebug(eventName, payload);
+
+        if (eventName === "mode_detected") {
+            modeBadgeEl.textContent = `mode: ${payload.content || "unknown"}`;
+            return;
+        }
+
+        if (eventName === "answer_chunk") {
+            setAnswer(state.answer + (payload.content || ""));
+            return;
+        }
+
+        if (eventName === "source_cited") {
+            const meta = payload.metadata || {};
+            state.citations.push({
+                excerpt: payload.content,
+                filePath: meta.filePath,
+                locator: meta.locator,
+                contextType: meta.contextType
+            });
+            renderCitations();
+            return;
+        }
+
+        if (eventName === "fresh_data") {
+            const meta = payload.metadata || {};
+            freshDataEl.textContent = `ticker=${payload.content || "-"} | source=${meta.source || "-"} | asOf=${meta.asOf || "-"} | cache=${meta.fromCache}`;
+            return;
+        }
+
+        if (eventName === "disclaimer") {
+            disclaimerEl.textContent = payload.content || "";
+            return;
+        }
+
+        if (eventName === "trace_end") {
+            state.traceMeta = payload.metadata || {};
+            statusEl.textContent = `done (${state.traceMeta.latencyMs || 0}ms)`;
+            return;
+        }
+
+        if (eventName === "error") {
+            statusEl.textContent = "error";
+            answerEl.classList.add("danger");
+        }
+    }
+
+    function escapeHtml(input) {
+        return String(input || "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
+    document.getElementById("sendBtn").addEventListener("click", async () => {
+        resetUi();
         const conversationId = document.getElementById("conversationId").value;
         const message = document.getElementById("message").value;
+
         const response = await fetch("/chat/stream", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ conversationId, message })
         });
+
         if (!response.ok || !response.body) {
             statusEl.textContent = "error";
-            outputEl.textContent = "请求失败";
+            setAnswer("请求失败，请检查后端服务。\n");
             return;
         }
+
         const reader = response.body.getReader();
         const decoder = new TextDecoder("utf-8");
+        let pending = "";
+
         while (true) {
             const { done, value } = await reader.read();
             if (done) {
-                statusEl.textContent = "done";
+                if (!statusEl.textContent.startsWith("done")) {
+                    statusEl.textContent = "done";
+                }
                 break;
             }
-            outputEl.textContent += decoder.decode(value, { stream: true });
+
+            pending += decoder.decode(value, { stream: true });
+            const chunks = pending.split("\n\n");
+            pending = chunks.pop() || "";
+
+            for (const block of chunks) {
+                const parsed = parseSseChunk(block + "\n\n");
+                for (const { eventName, dataLine } of parsed) {
+                    const payload = parsePayload(dataLine);
+                    handleEvent(eventName, payload);
+                }
+            }
         }
     });
 </script>

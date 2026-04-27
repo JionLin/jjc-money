@@ -50,6 +50,23 @@ resilience4j:
         wait-duration-in-open-state: 10s
 
 lab:
+  runtime:
+    skill-path: ${LAB_RUNTIME_SKILL_PATH:../.agent/skills/jinjian-perspective/SKILL.md}
+    minimum-skill-version: ${LAB_RUNTIME_MIN_SKILL_VERSION:2.0}
+    fail-fast-on-skill-error: ${LAB_RUNTIME_FAIL_FAST:true}
+    overview-narrowing-enabled: ${LAB_RUNTIME_OVERVIEW_NARROWING:true}
+    debug-enabled: ${LAB_RUNTIME_DEBUG_ENABLED:true}
+    archive-roots:
+      - ${LAB_RUNTIME_ARCHIVE_ROOT_1:../22-25year}
+      - ${LAB_RUNTIME_ARCHIVE_ROOT_2:../26year}
+    archive-overview-path: ${LAB_RUNTIME_ARCHIVE_OVERVIEW_PATH:../docs/indexes/archive-index.md}
+    derived-doc-roots:
+      - ${LAB_RUNTIME_DERIVED_ROOT_1:../docs/topology-details}
+      - ${LAB_RUNTIME_DERIVED_ROOT_2:../docs/deep-analysis}
+    fresh-price-ttl-seconds: ${LAB_RUNTIME_FRESH_PRICE_TTL_SECONDS:180}
+    fresh-valuation-ttl-seconds: ${LAB_RUNTIME_FRESH_VALUATION_TTL_SECONDS:600}
+    fresh-filings-ttl-seconds: ${LAB_RUNTIME_FRESH_FILINGS_TTL_SECONDS:1800}
+    fresh-macro-ttl-seconds: ${LAB_RUNTIME_FRESH_MACRO_TTL_SECONDS:1800}
   chat:
     session:
       key-prefix: ${LAB_CHAT_SESSION_KEY_PREFIX:lab:chat:session:}
@@ -74,5 +91,4 @@ lab:
         vector-search:
           base-url: http://127.0.0.1:8080
           path: /api/vector/search
-
 
