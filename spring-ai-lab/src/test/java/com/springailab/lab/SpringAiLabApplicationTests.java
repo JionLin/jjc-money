@@ -1,9 +1,7 @@
 package com.springailab.lab;
 
-import com.springailab.lab.domain.user.mapper.SysUserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 /**
@@ -11,15 +9,9 @@ import org.springframework.test.context.ActiveProfiles;
  *
  * @author jiaolin
  */
-@SpringBootTest(properties = {
-        "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,"
-                + "com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration"
-})
+@SpringBootTest
 @ActiveProfiles("test")
 class SpringAiLabApplicationTests {
-
-    @MockBean
-    private SysUserMapper sysUserMapper;
 
     /**
      * 验证应用上下文可启动。

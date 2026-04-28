@@ -1,14 +1,11 @@
 package com.springailab.lab.domain.runtime.fresh;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springailab.lab.domain.runtime.config.JinjianRuntimeProperties;
 import com.springailab.lab.domain.runtime.model.FreshFactRecord;
 import com.springailab.lab.domain.runtime.trace.RuntimeTrace;
 import com.springailab.lab.domain.runtime.trace.ToolCallRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -19,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Fresh ticker facts service with provider fallback and TTL-aware caching.
@@ -35,20 +31,12 @@ public class FreshDataService {
 
     private final JinjianRuntimeProperties runtimeProperties;
 
-    private final Optional<StringRedisTemplate> redisTemplate;
-
-    private final ObjectMapper objectMapper;
-
     private final Map<String, CachedEnvelope> memoryCache = new ConcurrentHashMap<>();
 
     public FreshDataService(List<FreshDataProvider> providers,
-                            JinjianRuntimeProperties runtimeProperties,
-                            ObjectMapper objectMapper,
-                            Optional<StringRedisTemplate> redisTemplate) {
+                            JinjianRuntimeProperties runtimeProperties) {
         this.providers = providers;
         this.runtimeProperties = runtimeProperties;
-        this.objectMapper = objectMapper;
-        this.redisTemplate = redisTemplate;
     }
 
     public FreshDataResult fetchFreshFacts(String tickerRaw, RuntimeTrace trace) {
@@ -94,20 +82,6 @@ public class FreshDataService {
 
     private FreshFactRecord readCache(String ticker) {
         String key = CACHE_KEY_PREFIX + ticker;
-        try {
-            if (this.redisTemplate.isPresent()) {
-                String value = this.redisTemplate.get().opsForValue().get(key);
-                if (StringUtils.hasText(value)) {
-                    CachedEnvelope envelope = this.objectMapper.readValue(value, CachedEnvelope.class);
-                    if (envelope.allRequiredFactsFresh(Instant.now())) {
-                        return buildRecordFromEnvelope(ticker, envelope, true);
-                    }
-                }
-            }
-        } catch (Exception ex) {
-            log.debug("Redis cache read skipped: {}", ex.getMessage());
-        }
-
         CachedEnvelope memory = this.memoryCache.get(key);
         if (memory == null || !memory.allRequiredFactsFresh(Instant.now())) {
             return null;
@@ -124,21 +98,6 @@ public class FreshDataService {
                 this.runtimeProperties.getFreshFilingsTtlSeconds(),
                 this.runtimeProperties.getFreshMacroTtlSeconds());
         this.memoryCache.put(key, envelope);
-
-        try {
-            if (this.redisTemplate.isPresent()) {
-                String payload = this.objectMapper.writeValueAsString(envelope);
-                long maxTtl = Math.max(Math.max(this.runtimeProperties.getFreshPriceTtlSeconds(),
-                                this.runtimeProperties.getFreshValuationTtlSeconds()),
-                        Math.max(this.runtimeProperties.getFreshFilingsTtlSeconds(),
-                                this.runtimeProperties.getFreshMacroTtlSeconds()));
-                this.redisTemplate.get().opsForValue().set(key, payload, maxTtl, TimeUnit.SECONDS);
-            }
-        } catch (JsonProcessingException ex) {
-            log.warn("Fresh data cache serialization failed: {}", ex.getMessage());
-        } catch (Exception ex) {
-            log.debug("Redis cache write skipped: {}", ex.getMessage());
-        }
     }
 
     private static String normalizeTicker(String tickerRaw) {

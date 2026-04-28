@@ -1,33 +1,17 @@
 # 共享配置。大模型厂商在 application-deepseek.yml / application-qwen.yml。
 #
 # 切换方式（任选其一）：
-# - 环境变量：SPRING_PROFILES_ACTIVE=qwen,mysql,redis-vector
-# - JVM 参数：--spring.profiles.active=qwen,mysql,redis-vector
+# - 环境变量：SPRING_PROFILES_ACTIVE=qwen
+# - JVM 参数：--spring.profiles.active=qwen
 # - 修改下方 spring.profiles.active 默认值
 #
 # DeepSeek 密钥：SPRING_AI_OPENAI_API_KEY
 # 通义（DashScope）密钥：DASHSCOPE_API_KEY
-# MySQL 配置：MYSQL_URL / MYSQL_USERNAME / MYSQL_PASSWORD
-# Redis 配置：REDIS_HOST / REDIS_PORT / REDIS_PASSWORD
 spring:
   application:
     name: server
   profiles:
     active: local
-
-
-
-
-
-
-mybatis-plus:
-  configuration:
-    map-underscore-to-camel-case: true
-  global-config:
-    db-config:
-      id-type: auto
-
-
 
 logging:
   pattern:
