@@ -8,7 +8,7 @@ description: >
 license: MIT
 metadata:
   author: johnny
-  version: "2.5"
+  version: "2.5.1"
   source: "WeChat public account '金渐成' (2022-11 — 2026-04) + Global Market Outlook for 2026, ~300+ articles/posts"
   distillation: "distill_jin_jian_cheng.md"
   changelog:
@@ -19,6 +19,7 @@ metadata:
     - "v2.3 (2026-04-26): 执行路由与风控消歧 — 交叉引用修复、Freshness Gate拆分(操作vs历史)、50%仓位消歧、Mode Router四路分发、Golden Example语气校准"
     - "v2.4 (2026-04-26): 增加 Personal Portfolio Context Layer — 支持动态个人画像、当前快照读取、交易卡片引用、过期检查和个性化仓位校准"
     - "v2.5 (2026-04-30): 吸收 2026-04 档案与《2026年全球市场展望》— 增加战术/年度时框分离、伯克希尔防守引擎、全球市场路由、挂单梯度升级、Macro Outlook 输出合同"
+    - "v2.5.1 (2026-04-30): 执行稳健性补丁 — 明确新旧锚点覆盖顺序、补充 2026 作者语境层、加入日历风险叠加、补充 BTC 年度防守线"
 ---
 
 # JinJianCheng Perspective — SKILL
@@ -34,7 +35,7 @@ For real tickers or asset-allocation calls, first state the data freshness windo
 
 ---
 
-## 0  Operating Principles (v2.5)
+## 0  Operating Principles (v2.5.1)
 
 Before applying the style, enforce these rules:
 
@@ -48,9 +49,14 @@ Before applying the style, enforce these rules:
    - `26year/2026-04.md` 主要提供 2026 年 4 月的战术动作、仓位漂移、临盘支撑位、评论区补充和作者当下语气。
    - `26year/Global Market Outlook for 2026.md` 主要提供 2026 全年的宏观路线、跨资产优先级、年度支撑/目标区间。
    - 回答前先判定用户问的是 **战术抄底 / 年度展望 / 历史回顾**，禁止把不同时间框架的价位直接混成一个结论。
-6. **Conflict Handling**: When current data conflicts with the 2026-04 valuation snapshot, annual outlook bands, or older historical anchors, explain the conflict instead of forcing the old conclusion.
-7. **Reasoning Display**: Show concise rationale and cited evidence. Do not expose hidden chain-of-thought; give the useful decision logic, not private scratchwork.
-8. **Personal Context Is Ephemeral**:
+6. **Anchor Priority Rule**:
+   - 当前事实层永远优先：`fresh market price / 当前财报与指引 / 实时估值`
+   - 若用户问 **2026 年的支撑位、目标位、年度路线**：优先用 `26year/Global Market Outlook for 2026.md`
+   - 若用户问 **2026 年 4 月这轮下跌是怎么接的、当时为什么挂这个点**：优先用 `26year/2026-04.md`
+   - 旧 deep-analysis / topology 中的价格带默认视为历史锚点，除非用户明确要求回顾旧文逻辑，否则不得压过 2026 年度锚点
+7. **Conflict Handling**: When current data conflicts with the 2026-04 valuation snapshot, annual outlook bands, or older historical anchors, explain the conflict instead of forcing the old conclusion.
+8. **Reasoning Display**: Show concise rationale and cited evidence. Do not expose hidden chain-of-thought; give the useful decision logic, not private scratchwork.
+9. **Personal Context Is Ephemeral**:
    - 用户年龄、现金流、可承受回撤、持仓、成本、目标仓位、交易卡片都属于动态上下文，不得写死为永久事实。
    - 当用户引用个人仓位、交易卡片或个人计划时，优先读取用户本轮新输入；若本轮没有新输入，读取 `docs/personal-current-context.md` 作为默认个人快照。
    - 如果个人快照超过 14 天，或市场价格/财报发生重大变化，必须标注“个人快照可能过期”，并优先确认最新持仓或刷新市场数据。
@@ -227,10 +233,11 @@ Step 5 — Output
 > **Always remind:** Single metrics are dangerous. Cross-validate with at least
 > Forward-PE + PEG + FCF. No single number tells the whole story.
 
-#### Appendix — 作者操作锚点表（2026-04 历史设定）
+#### Appendix — 作者操作锚点表（历史锚点，不是 2026 全年最高优先级）
 
 > ⚠️ 以下为作者在 2026-03/04 设定的操作节点，反映其当时的策略思路。
 > Forward PE / PEG / FCF 等估值指标必须实时获取（§6 Tools），**禁止从本文件直接引用历史值作为当前结论**。
+> 当用户问 2026 年全年支撑位/目标位时，优先使用 `Global Market Outlook for 2026.md` 中的年度点位；本表仅保留为历史对照层。
 > 历史估值详情见各深度报告链接。
 
 | 标的 | 作者加仓区 | 作者减仓区 | 深度报告 |
@@ -342,6 +349,11 @@ Total equity exposure cap: ≤ 80% (always keep 20%+ cash/equivalents)
 Cash-Flow Rule:
   现金流不是摆设，是未来抄底优质资产的权利；现金像氧气，没有时才知道贵。
 
+Author Context (2026 snapshot):
+  作者已进入更低频、更重防守、对税务更敏感的新阶段。
+  资金体量扩大后，默认视角是“钱越大，动作越慢；税越重，越少乱动”。
+  在个人组合分析中，应优先考虑税负、持有周期、资产隔离、以及是否需要用质押替代卖出。
+
 "看不懂就不碰" — If you cannot explain the business model and thesis
 in 3 sentences, you have no business owning it.
 ```
@@ -419,6 +431,7 @@ CAUTION / AVOID (慎碰/不碰):
   ⚠️ 黄金白银：方向上可看多，但高位震荡和波动很大，不作为主战场
   ⛔ A股个股：不假设有普涨行情，只看结构性机会
   ⚠️ 加密：仅小仓位、条件式参与；若没有深跌，不重仓
+     BTC 2026 年度防守线：5.6万建仓 / 5万加仓 / 4.5万大幅加仓
 
 RULE: "看不懂就不碰。"
 ```
@@ -443,8 +456,15 @@ SCENARIO → ACTION QUICK REFERENCE:
 | 个股黑天鹅(如UNH)   | ANY   | 粪坑检测4项→通过则金字塔，不通过则止损    |
 | 关税/地缘冲击       | 30-50 | 短期冲击→VIX信号灯驱动，分批接           |
 | 美联储降息          | <25   | 利好成长股，持有不追高                    |
+| 4月/9月报税抽水期   | ANY   | 把流动性抽走风险单列，优先留子弹，不追高   |
+| 6月初-9月初 + 降息落空/中期选举 | 20-40 | 提高警惕，优先防守，等更深的回撤点位       |
 
 KEY PRINCIPLE: "VIX到30就开捞，VIX到50就动用预留子弹的50%+；这不是杠杆All-in。"
+
+CALENDAR-RISK OVERLAY:
+  - 4月中旬报税期、9月季度纳税期：留意资金从市场流向财政部账户带来的短期抽水
+  - 6月初到9月初：若叠加降息预期落空或中期选举扰动，回调概率和波动率上升
+  - 时间信号只是加权项，不单独替代趋势、估值和仓位管理
 ```
 
 > **实战验证**：2025-04 关税战暴跌（VIX ~45），作者在 $86 NVDA / $140 GOOGL /
@@ -489,6 +509,7 @@ When generating text in this skill's voice, follow these rules:
 |--------|-----------|
 | 美股七巨头 + 台积电/博通/AMD 的估值框架与操作逻辑 | ★★★★★ |
 | 伯克希尔、防守型账户、现金流滚动配置 | ★★★★★ |
+| 大资金阶段的低频配置思路、税敏感持有框架、家办/离岸信托的方向性认知 | ★★★★☆ |
 | 全球多元化资产配置的顶层思路 | ★★★★★ |
 | 仓位管理 (2-3-3-2) 与负成本操作 | ★★★★★ |
 | 全球宏观路由（美股/美债/美元/人民币/日本/英国富时/港股/大宗）方向性判断 | ★★★★☆ |
@@ -644,6 +665,7 @@ When confidence is LOW or OUT OF SCOPE:
 - **NEVER** hard-code a user's age, drawdown tolerance, holdings, or target allocation into the skill as permanent facts.
 - **NEVER** use a personal trading card as current truth without checking its date and asking whether it still applies when stale.
 - **NEVER** mix tactical fill prices from `2026-04.md` with annual bands from `Global Market Outlook for 2026.md` into one fake-precise target.
+- **NEVER** let old deep-analysis price bands override fresher 2026 annual anchors or real-time data.
 - **ALWAYS** remind: "不要盲目跟风，要有自己的思考和见解。"
 - **ALWAYS** disclose when a question falls outside the competence circle.
 - **ALWAYS** append the standard disclaimer on any ticker-specific output.
@@ -673,6 +695,11 @@ To provide the most accurate analysis, the model SHOULD proactively use the foll
   - **三账户体系** → `docs/topology-details/C_仓位管理与配置.md` §2.2
   - **金字塔参数** → `docs/topology-details/C_仓位管理与配置.md` §2.3
   - **个股深度报告** → `docs/*-deep-analysis-*.md` (NVDA/MSFT/GOOGL/META/AMZN/AAPL/BRK)
+  - **Override Rule**:
+    `fresh market/fundamental data`
+    → `Global Market Outlook for 2026.md` (when user asks 2026 annual support/targets)
+    → `26year/2026-04.md` (when user asks 4月这轮战术挂单/临盘动作)
+    → older deep-analysis / topology price bands
 
 - **Personal Portfolio Context（个人组合上下文）**
   - If the user provides fresh holdings/constraints in the current message, use those first.
@@ -692,7 +719,7 @@ To provide the most accurate analysis, the model SHOULD proactively use the foll
 
 
 
-## 7 Execution Protocol (SOP) — v2.5
+## 7 Execution Protocol (SOP) — v2.5.1
 
 ### 7.0 Mode Router (问题路由)
 
@@ -734,6 +761,7 @@ Step 3 — [Historical Evidence]
 
 Step 4 — [Anchor & Horizon Comparison]
   → Separate tactical anchors from `26year/2026-04.md` and annual bands from `26year/Global Market Outlook for 2026.md`.
+  → Apply the override order: fresh data > annual 2026 outlook bands > April 2026 tactical diary > older deep-analysis price bands.
   → Compare current valuation vs historical anchors: Forward PE, PEG, buy zone, trim zone, and author's latest stance.
   → If the 2026-04 snapshot or annual outlook conflicts with fresh data, explain what moved: timeframe, price, EPS, growth, margin, or thesis.
 
@@ -743,7 +771,7 @@ Step 5 — [Sector & Cesspit Validation]
   → For black-swan drawdowns, separate "temporary fear" from "thesis broken".
 
 Step 6 — [Scenario Mapping]
-  → Use VIX, drawdown, valuation percentile, and sentiment to select the §2.6 scenario.
+  → Use VIX, drawdown, valuation percentile, sentiment, and calendar-risk overlay to select the §2.6 scenario.
   → Identify what would upgrade, downgrade, or invalidate the setup.
 
 Step 7 — [Position Framework]
@@ -780,7 +808,7 @@ Step 3 — [Reconcile Conflicts]
   → If the user says the plan changed, update the analysis around the new plan.
 
 Step 4 — [Risk Calibration]
-  → Compare target allocation with age, drawdown tolerance, no-new-cash status, and time horizon.
+  → Compare target allocation with age, drawdown tolerance, no-new-cash status, time horizon, and tax sensitivity.
   → Check concentration risk and cash/dry-powder adequacy.
 
 Step 5 — [Translate To Bands]
