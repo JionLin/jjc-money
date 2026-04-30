@@ -17,7 +17,11 @@ import com.springailab.lab.domain.runtime.skill.SkillSnapshot;
 import com.springailab.lab.domain.runtime.trace.RuntimeTrace;
 import com.springailab.lab.domain.runtime.trace.RuntimeTraceStore;
 import com.springailab.lab.domain.runtime.trace.ToolCallRecord;
+import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import org.springframework.util.StringUtils;
 
 import java.time.Duration;
@@ -65,6 +69,8 @@ public class JinjianRuntimeService {
 
     private final RuntimeTraceStore traceStore;
 
+    private final ChatClient chatClient;
+
     /**
      * 构造器注入运行时依赖。
      *
@@ -79,12 +85,14 @@ public class JinjianRuntimeService {
                                  ModeRouter modeRouter,
                                  ArchiveEvidenceService archiveEvidenceService,
                                  FreshDataService freshDataService,
-                                 RuntimeTraceStore traceStore) {
+                                 RuntimeTraceStore traceStore,
+                                 ChatClient.Builder chatClientBuilder) {
         this.skillLoader = skillLoader;
         this.modeRouter = modeRouter;
         this.archiveEvidenceService = archiveEvidenceService;
         this.freshDataService = freshDataService;
         this.traceStore = traceStore;
+        this.chatClient = chatClientBuilder.build();
     }
 
     /**
@@ -142,6 +150,83 @@ public class JinjianRuntimeService {
                 answer.disclaimer(),
                 trace,
                 streamEvents);
+    }
+
+    /**
+     * 真流式总入口（引入大模型）。
+     *
+     * 1. 复用原有的 execute 获取数据。
+     * 2. 保留元数据事件。
+     * 3. 接入 Spring AI ChatClient，将数据转化为上下文，交由大模型生成。
+     */
+    public Flux<RuntimeStreamEvent> executeStream(String conversationId, String message) {
+        // 1. 获取证据和上下文 (非常快，纯本地操作)
+        RuntimeAnswer answer = this.execute(conversationId, message);
+        RuntimeTrace trace = answer.trace();
+
+        // 2. 准备元数据流 (立即推送给前端)
+        List<RuntimeStreamEvent> metaEvents = new ArrayList<>(answer.streamEvents());
+        // 过滤掉原有的伪流式正文和结尾事件
+        metaEvents.removeIf(e -> e.name().equals("answer_chunk") || e.name().equals("disclaimer") || e.name().equals("trace_end"));
+        Flux<RuntimeStreamEvent> metaFlux = Flux.fromIterable(metaEvents);
+
+        // 3. 构建大模型 Prompt
+        String systemPrompt = loadSkillPrompt();
+        String contextStr = buildLlmContext(answer);
+
+        // 4. 调用大模型，实时生成并转为事件流
+        Flux<RuntimeStreamEvent> llmFlux = this.chatClient.prompt()
+                .system(sys -> sys.text(systemPrompt + "\n\n" + contextStr))
+                .user(message)
+                .stream()
+                .content()
+                .filter(StringUtils::hasText)
+                .map(chunk -> new RuntimeStreamEvent("answer_chunk", chunk, Map.of()));
+
+        // 5. 准备收尾流
+        Flux<RuntimeStreamEvent> endFlux = Flux.defer(() -> {
+            trace.setLatencyMillis(Duration.between(trace.getStartedAt(), Instant.now()).toMillis());
+            this.traceStore.put(trace);
+            
+            Map<String, Object> tail = new HashMap<>();
+            tail.put("traceId", trace.getTraceId());
+            tail.put("latencyMs", trace.getLatencyMillis());
+            tail.put("degradeStatus", answer.degradeStatus().name());
+            tail.put("estimatedCost", trace.getEstimatedCost());
+            
+            return Flux.just(
+                    new RuntimeStreamEvent("disclaimer", answer.disclaimer(), Map.of("degradeStatus", answer.degradeStatus().name())),
+                    new RuntimeStreamEvent("trace_end", "done", tail)
+            );
+        });
+
+        // 6. 像水管一样拼起来
+        return Flux.concat(metaFlux, llmFlux, endFlux);
+    }
+
+    private String loadSkillPrompt() {
+        try {
+            return Files.readString(Path.of("d:/jjc-money/.agent/skills/jinjian-perspective/SKILL.md"));
+        } catch (Exception e) {
+            return "You are an investment assistant.";
+        }
+    }
+
+    private String buildLlmContext(RuntimeAnswer answer) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("=== RETRIEVED CONTEXT ===\n");
+        sb.append("Current Mode: ").append(answer.mode().name()).append("\n");
+        if (answer.freshFact() != null) {
+            sb.append("Fresh Facts:\n- Ticker: ").append(answer.freshFact().ticker()).append("\n");
+            sb.append("- Data: ").append(answer.freshFact().facts()).append("\n");
+        }
+        sb.append("Archive Evidence:\n");
+        for (CitationRecord c : answer.citations()) {
+            sb.append("- ").append(c.excerpt()).append("\n");
+        }
+        sb.append("=========================\n");
+        sb.append("请严格遵循 SKILL 中的约束。如果你认为 Context 证据不足以支撑当前结论，请明确指出。\n");
+        return sb.toString();
     }
 
     /**

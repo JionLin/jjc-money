@@ -111,21 +111,14 @@ public class ChatOrchestrator {
      * - 普通接口：后端攒完全部结果，一次性返回
      * - SSE 接口：后端拿到一点结果就先推一点，直到全部推完
      *
-     * 为什么要用 `CompletableFuture.runAsync(...)`？
-     * 因为流式返回通常持续几秒甚至更久，
-     * 如果在当前 HTTP 线程里同步执行，线程会被长时间占住。
-     * 所以这里先把 `SseEmitter` 返回给 Spring，
-     * 再开异步任务慢慢往这个 emitter 里写事件。
-     *
      * 处理步骤：
      * 1. 规范化输入
      * 2. 创建 `SseEmitter`，它代表一条和前端保持打开的事件流
      * 3. 开始计时并记录“流式请求数”
-     * 4. 异步执行 runtime，拿到 `RuntimeAnswer`
-     * 5. 遍历 `answer.streamEvents()`，逐条发给前端
-     * 6. 最后发送 `done` 事件，通知前端“本次流结束”
-     * 7. 记录会话、指标，并正常关闭 emitter
-     * 8. 如果中途异常，则发送 `error` 事件并结束流
+     * 4. 订阅 runtime 异步流，逐条发给前端
+     * 5. 最后发送 `done` 事件，通知前端“本次流结束”
+     * 6. 记录会话、指标，并正常关闭 emitter
+     * 7. 如果中途异常，则发送 `error` 事件并结束流
      */
     public SseEmitter streamChat(String message, String conversationId) {
         String normalizedConversationId = normalizeConversationId(conversationId);
@@ -137,34 +130,37 @@ public class ChatOrchestrator {
         Timer.Sample sample = Timer.start(this.meterRegistry);
         Counter.builder("chat_stream_requests_total").register(this.meterRegistry).increment();
 
-        CompletableFuture.runAsync(() -> {
-            try {
-                RuntimeAnswer answer = this.runtimeService.execute(normalizedConversationId, normalizedMessage);
-                // Runtime 并不是直接返回“只一段字符串”，
-                // 而是返回一个 RuntimeAnswer，其中已经包含了一组结构化事件。
-                // 例如：trace_start / mode_detected / source_cited / answer_chunk / disclaimer 等。
-                // 这里的职责只是“按顺序把这些事件推到前端”。
-                for (RuntimeStreamEvent event : answer.streamEvents()) {
-                    sendEvent(emitter, event.name(),
-                            new ChatEventPayload(normalizedConversationId, event.content(), event.name(), event.metadata()));
-                }
-                // 这里额外补一个 done 事件，方便前端在 UI 层明确知道“已经彻底结束了”。
-                sendEvent(emitter, "done", new ChatEventPayload(normalizedConversationId, "completed", "done",
-                        Map.of("traceId", answer.trace().getTraceId())));
-
-                appendConversation(normalizedConversationId, normalizedMessage, answer.reply());
-                collectDegradeMetric(answer.degradeStatus().name());
-                sample.stop(Timer.builder("chat_stream_latency").register(this.meterRegistry));
-                emitter.complete();
-            } catch (Exception ex) {
-                log.error("Stream runtime failed", ex);
-                Counter.builder("chat_stream_errors_total").register(this.meterRegistry).increment();
-                sendEvent(emitter, "error", new ChatEventPayload(normalizedConversationId,
-                        "runtime_failed", "error", Map.of("message", ex.getMessage())));
-                sample.stop(Timer.builder("chat_stream_latency").register(this.meterRegistry));
-                emitter.completeWithError(ex);
-            }
-        });
+        StringBuilder fullReply = new StringBuilder();
+        this.runtimeService.executeStream(normalizedConversationId, normalizedMessage)
+                .subscribe(
+                        event -> {
+                            if ("answer_chunk".equals(event.name())) {
+                                fullReply.append(event.content());
+                            }
+                            if ("trace_end".equals(event.name())) {
+                                String degradeStatus = (String) event.metadata().get("degradeStatus");
+                                if (degradeStatus != null) {
+                                    collectDegradeMetric(degradeStatus);
+                                }
+                            }
+                            sendEvent(emitter, event.name(),
+                                    new ChatEventPayload(normalizedConversationId, event.content(), event.name(), event.metadata()));
+                        },
+                        ex -> {
+                            log.error("Stream runtime failed", ex);
+                            Counter.builder("chat_stream_errors_total").register(this.meterRegistry).increment();
+                            sendEvent(emitter, "error", new ChatEventPayload(normalizedConversationId,
+                                    "runtime_failed", "error", Map.of("message", ex.getMessage())));
+                            sample.stop(Timer.builder("chat_stream_latency").register(this.meterRegistry));
+                            emitter.completeWithError(ex);
+                        },
+                        () -> {
+                            sendEvent(emitter, "done", new ChatEventPayload(normalizedConversationId, "completed", "done", Map.of()));
+                            appendConversation(normalizedConversationId, normalizedMessage, fullReply.toString());
+                            sample.stop(Timer.builder("chat_stream_latency").register(this.meterRegistry));
+                            emitter.complete();
+                        }
+                );
 
         return emitter;
     }
