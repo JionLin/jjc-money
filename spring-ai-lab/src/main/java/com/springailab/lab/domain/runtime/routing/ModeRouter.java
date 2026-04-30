@@ -11,13 +11,25 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Two-stage mode router: rules first, lightweight structured fallback second.
+ * 模式路由器。
+ *
+ * 这个类可以理解成整条 AI 链路的“分诊台”。
+ * 用户问题一进来，系统先在这里判断它属于哪一类问题，
+ * 再决定后面应该走 Ticker、Historical View、Portfolio 还是拒绝分支。
+ *
+ * 当前采用两段式策略：
+ * 1. 先走明确规则
+ * 2. 规则不够时，再走轻量关键词打分兜底
  */
 @Component
 public class ModeRouter {
 
     private static final Pattern TICKER_SYMBOL = Pattern.compile("\\b[A-Z]{1,5}\\b");
 
+    /**
+     * 路由总入口。
+     * 先做基础清洗，再优先走规则路由，最后用兜底路由补足。
+     */
     public ModeDecision route(String rawInput) {
         String input = StringUtils.hasText(rawInput) ? rawInput.trim() : "";
         ModeDecision byRule = routeByRule(input);
@@ -27,6 +39,10 @@ public class ModeRouter {
         return routeByStructuredFallback(input);
     }
 
+    /**
+     * 第一阶段：规则路由。
+     * 只要命中某些高确定性的关键词，就直接给出模式判断。
+     */
     private ModeDecision routeByRule(String input) {
         String lowered = input.toLowerCase(Locale.ROOT);
         String ticker = extractTicker(input);
@@ -58,6 +74,10 @@ public class ModeRouter {
         return null;
     }
 
+    /**
+     * 第二阶段：结构化兜底路由。
+     * 如果规则没有明显命中，就通过关键词计分选出最可能的模式。
+     */
     private ModeDecision routeByStructuredFallback(String input) {
         String lowered = input.toLowerCase(Locale.ROOT);
         String ticker = extractTicker(input);
@@ -96,6 +116,10 @@ public class ModeRouter {
         return new ModeDecision(bestMode, "fallback", confidence, reason, ticker);
     }
 
+    /**
+     * 计算某个模式的关键词得分。
+     * 当前规则很简单：命中一个关键词加 1 分。
+     */
     private static int weightedScore(String lowered, String... keywords) {
         int score = 0;
         for (String keyword : keywords) {
@@ -106,6 +130,10 @@ public class ModeRouter {
         return score;
     }
 
+    /**
+     * 从输入文本里粗略提取 ticker。
+     * 这里只是轻量匹配像 NVDA、TSM 这样的连续大写字母。
+     */
     private static String extractTicker(String input) {
         Matcher matcher = TICKER_SYMBOL.matcher(input == null ? "" : input);
         while (matcher.find()) {
@@ -118,6 +146,9 @@ public class ModeRouter {
         return null;
     }
 
+    /**
+     * 判断字符串里是否包含任意一个关键词。
+     */
     private static boolean containsAny(String value, String... needles) {
         for (String needle : needles) {
             if (value.contains(needle)) {

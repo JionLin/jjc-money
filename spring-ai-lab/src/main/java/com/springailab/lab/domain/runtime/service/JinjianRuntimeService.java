@@ -32,7 +32,23 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Executes Jinjian v1 runtime contract for Ticker and Historical View modes.
+ * 这是 AI 运行时核心服务。
+ *
+ * 如果把 `ChatController` 看成“HTTP 入口”，
+ * 把 `ChatOrchestrator` 看成“流程调度层”，
+ * 那这个类就是“真正干活的人”。
+ *
+ * 它负责的事情包括：
+ * 1. 判断用户问题属于哪种模式（比如 Ticker / Historical View）
+ * 2. 去本地归档里找历史证据
+ * 3. 在需要时去拿 fresh data（实时数据 / 新事实）
+ * 4. 把这些材料拼成最终答复
+ * 5. 再把答复转换成适合前端流式显示的事件列表
+ *
+ * 从“Spring AI 初学者”的角度说，
+ * 这里更像一个“应用层 AI runtime”，
+ * 而不是直接调用某个模型 SDK 的最底层代码。
+ * 它的重点是：把业务规则、检索规则、输出结构组织起来。
  */
 @Service
 public class JinjianRuntimeService {
@@ -49,6 +65,16 @@ public class JinjianRuntimeService {
 
     private final RuntimeTraceStore traceStore;
 
+    /**
+     * 构造器注入运行时依赖。
+     *
+     * 各依赖的职责可以先这样记：
+     * - `SkillLoader`：读取当前激活的 skill 配置
+     * - `ModeRouter`：判断用户问题应该走哪种模式
+     * - `ArchiveEvidenceService`：去本地归档找历史文章证据
+     * - `FreshDataService`：获取当前新的事实数据
+     * - `RuntimeTraceStore`：保存本次运行的 trace，方便调试和回放
+     */
     public JinjianRuntimeService(SkillLoader skillLoader,
                                  ModeRouter modeRouter,
                                  ArchiveEvidenceService archiveEvidenceService,
@@ -61,6 +87,25 @@ public class JinjianRuntimeService {
         this.traceStore = traceStore;
     }
 
+    /**
+     * 运行时总入口。
+     *
+     * 不管前端问什么，最后都会先来到这里。
+     * 你可以把这个方法理解成一个“总调度方法”。
+     *
+     * 核心步骤：
+     * 1. 创建 `trace`
+     *    trace 就像本次请求的“执行记录单”，后面会记录模式、耗时、工具调用等信息
+     * 2. 读取当前激活 skill 的版本信息
+     * 3. 调用 `modeRouter.route(message)` 判断这条问题该走哪条分支
+     * 4. 根据模式进入不同执行方法
+     * 5. 执行完成后，补充耗时、结束时间、成本等 trace 信息
+     * 6. 把最终答案再转成 stream events，供 `/chat/stream` 使用
+     *
+     * 也就是说：
+     * - `/chat` 最终会用到这里返回的 `reply`
+     * - `/chat/stream` 最终会用到这里返回的 `streamEvents`
+     */
     public RuntimeAnswer execute(String conversationId, String message) {
         Instant started = Instant.now();
         RuntimeTrace trace = new RuntimeTrace("trace-" + UUID.randomUUID(), conversationId, started);
@@ -99,6 +144,25 @@ public class JinjianRuntimeService {
                 streamEvents);
     }
 
+    /**
+     * 执行 Ticker 模式。
+     *
+     * 什么时候会走到这里？
+     * 一般是系统判断用户在问某个股票 / 标的的当前分析问题时。
+     *
+     * 这个分支和 Historical View 最大的区别是：
+     * 它不仅查“过去怎么说”，还尽量查“现在的数据是什么”，
+     * 所以它更接近“当前分析模式”。
+     *
+     * 处理流程：
+     * 1. 先解析 ticker
+     * 2. 如果 ticker 都解析不出来，就只能降级
+     * 3. 查本地原始归档证据
+     * 4. 查派生分析文档补充上下文
+     * 5. 查 fresh data
+     * 6. 如果 fresh data 拿不到，生成降级版回复
+     * 7. 如果 fresh data 拿到了，生成完整版回复
+     */
     private RuntimeAnswer executeTickerMode(RuntimeTrace trace, String message, ModeDecision decision) {
         String ticker = resolveTicker(decision, message);
         if (!StringUtils.hasText(ticker)) {
@@ -109,6 +173,8 @@ public class JinjianRuntimeService {
                     buildDisclaimer(DegradeStatus.DEGRADED), trace, List.of());
         }
 
+        // 第一步：查原始归档。
+        // 这些归档是“作者过去真实写过的内容”，优先级最高。
         List<ArchiveEvidence> primaryEvidence = this.archiveEvidenceService.searchLocalArchive(ticker, message, 4);
         trace.addToolCall(new ToolCallRecord("searchLocalArchive", "ok", "matches=" + primaryEvidence.size()));
 
@@ -118,6 +184,8 @@ public class JinjianRuntimeService {
             trace.addCitation(new CitationRecord(evidence.filePath(), evidence.locator(), evidence.excerpt(), evidence.contextType()));
         }
 
+        // 第二步：查派生分析文档。
+        // 这些通常是对原始材料做过整理的辅助资料，能帮回答更完整，但不是最原始证据。
         List<ArchiveEvidence> derived = this.archiveEvidenceService.searchDerivedDocs(ticker + " " + message, 2);
         trace.addToolCall(new ToolCallRecord("searchDerivedDocs", "ok", "matches=" + derived.size()));
         for (ArchiveEvidence evidence : derived) {
@@ -125,6 +193,9 @@ public class JinjianRuntimeService {
             trace.addCitation(new CitationRecord(evidence.filePath(), evidence.locator(), evidence.excerpt(), evidence.contextType()));
         }
 
+        // 第三步：查 fresh data。
+        // Ticker 模式想回答“现在怎么看”，就必须尽量有当前事实数据。
+        // 如果拿不到 fresh data，就说明不能给太像“当前操作建议”的回答，只能降级。
         FreshDataResult fresh = this.freshDataService.fetchFreshFacts(ticker, trace);
         if (!fresh.success()) {
             trace.setDegradeStatus(DegradeStatus.DEGRADED);
@@ -140,6 +211,17 @@ public class JinjianRuntimeService {
                 buildDisclaimer(DegradeStatus.NONE), trace, List.of());
     }
 
+    /**
+     * 执行 Historical View 模式。
+     *
+     * 这个分支的定位是：
+     * “帮用户回看作者过去是怎么想、怎么写、怎么判断的。”
+     *
+     * 它和 Ticker 模式不同的地方在于：
+     * - 不强依赖 fresh data
+     * - 更像资料检索 + 观点复盘
+     * - 输出时也会明确提醒：这不是当前操作建议
+     */
     private RuntimeAnswer executeHistoricalMode(RuntimeTrace trace, String message, ModeDecision decision) {
         String ticker = resolveTicker(decision, message);
         List<ArchiveEvidence> primaryEvidence = this.archiveEvidenceService.searchLocalArchive(ticker, message, 5);
@@ -152,6 +234,8 @@ public class JinjianRuntimeService {
             trace.addCitation(citation);
         }
 
+        // 如果连原始归档都没搜到，就退一步查派生文档。
+        // 这样至少还能给用户一条可继续理解问题的线索，而不是完全空结果。
         if (citations.isEmpty()) {
             List<ArchiveEvidence> derived = this.archiveEvidenceService.searchDerivedDocs(message, 3);
             trace.addToolCall(new ToolCallRecord("searchDerivedDocs", "ok", "matches=" + derived.size()));
@@ -167,6 +251,13 @@ public class JinjianRuntimeService {
                 buildDisclaimer(DegradeStatus.NONE), trace, List.of());
     }
 
+    /**
+     * 处理“投资组合 / 仓位配置”类问题，但当前只做降级提示。
+     *
+     * 原因不是代码报错，而是产品能力边界如此：
+     * 当前 v1 版本不打算直接给个性化仓位建议，
+     * 所以这里会返回一个“目前不支持该能力，但你可以换成其他模式提问”的结果。
+     */
     private RuntimeAnswer executePortfolioDowngrade(RuntimeTrace trace, String message, ModeDecision decision) {
         trace.setDegradeStatus(DegradeStatus.DEGRADED);
         trace.setDegradeReason("portfolio mode is out of v1 scope");
@@ -177,6 +268,13 @@ public class JinjianRuntimeService {
                 buildDisclaimer(DegradeStatus.DEGRADED), trace, List.of());
     }
 
+    /**
+     * 处理非投资类请求。
+     *
+     * 这个分支的作用很简单：
+     * 让系统明确表达“当前版本只服务投资场景”，
+     * 而不是对任何问题都硬答一遍。
+     */
     private RuntimeAnswer executeNonInvestingReject(RuntimeTrace trace, String message, ModeDecision decision) {
         trace.setDegradeStatus(DegradeStatus.REJECTED);
         trace.setDegradeReason("non-investing request out of v1 scope");
@@ -186,6 +284,17 @@ public class JinjianRuntimeService {
                 buildDisclaimer(DegradeStatus.REJECTED), trace, List.of());
     }
 
+    /**
+     * 从用户问题里尽量提取 ticker。
+     *
+     * 优先级：
+     * 1. 先相信 `ModeRouter` 已经提取好的结果
+     * 2. 如果路由器没提取到，就用一个简单正则兜底匹配
+     *
+     * 这里的正则 `\\b[A-Z]{1,5}\\b` 可以粗略理解成：
+     * 匹配 1 到 5 位连续大写英文字母，
+     * 例如 `NVDA`、`TSM`、`META`
+     */
     private static String resolveTicker(ModeDecision decision, String message) {
         if (StringUtils.hasText(decision.extractedTicker())) {
             return decision.extractedTicker().toUpperCase(Locale.ROOT);
@@ -200,6 +309,17 @@ public class JinjianRuntimeService {
         return "";
     }
 
+    /**
+     * 组装 Ticker 模式下的完整回复文本。
+     *
+     * 这里不是再去查数据，而是把前面已经拿到的材料“排版成最终回复”。
+     * 目前结构分三段：
+     * 1. Fresh Facts：当前事实数据
+     * 2. Historical Evidence：历史归档证据
+     * 3. Framework：固定解释框架
+     *
+     * 也就是说，这个方法更像“视图拼装器”。
+     */
     private static String buildTickerReply(String ticker, FreshFactRecord fact, List<CitationRecord> citations) {
         StringBuilder sb = new StringBuilder();
         sb.append("## Mode: Ticker\n\n");
@@ -218,6 +338,16 @@ public class JinjianRuntimeService {
         return sb.toString();
     }
 
+    /**
+     * 组装 Ticker 模式降级时的回复文本。
+     *
+     * 典型场景：
+     * - 用户问的是一个当前 ticker 分析问题
+     * - 但系统没拿到 fresh data
+     *
+     * 这时不能假装自己知道“当前情况”，
+     * 所以这里只给历史证据 + 框架提示，并明确说明已经降级。
+     */
     private static String buildDegradedTickerReply(String ticker, List<CitationRecord> citations, String reason) {
         StringBuilder sb = new StringBuilder();
         sb.append("## Mode: Ticker (Degraded)\n\n");
@@ -230,6 +360,13 @@ public class JinjianRuntimeService {
         return sb.toString();
     }
 
+    /**
+     * 组装 Historical View 模式的回复文本。
+     *
+     * 这类回复的设计目标不是“现在该买还是卖”，
+     * 而是“作者过去是怎么判断这个问题的”。
+     * 所以文案上会显式区分历史观点和当前建议。
+     */
     private static String buildHistoricalReply(String ticker, List<CitationRecord> citations) {
         StringBuilder sb = new StringBuilder();
         sb.append("## Mode: Historical View\n\n");
@@ -244,6 +381,13 @@ public class JinjianRuntimeService {
         return sb.toString();
     }
 
+    /**
+     * 把证据列表追加到最终回复里。
+     *
+     * 如果找到了证据，就逐条列出来。
+     * 如果一条都没找到，也会明确告诉用户“没找到”，
+     * 这样前端或调用方就不会误以为系统漏渲染了内容。
+     */
     private static void appendCitations(StringBuilder sb, List<CitationRecord> citations) {
         if (citations == null || citations.isEmpty()) {
             sb.append("- 暂未检索到可验证证据，请换更具体的时间/标的关键词。\n");
@@ -262,6 +406,14 @@ public class JinjianRuntimeService {
         }
     }
 
+    /**
+     * 根据当前状态生成统一免责声明。
+     *
+     * 这样做的好处是：
+     * - 文案统一
+     * - 普通接口和流式接口都能复用
+     * - 后续如果要改提示语，只改这一个地方
+     */
     private static String buildDisclaimer(DegradeStatus status) {
         if (status == DegradeStatus.REJECTED) {
             return "Scope notice: v1 supports investing questions only.";
@@ -272,20 +424,40 @@ public class JinjianRuntimeService {
         return "Risk disclaimer: this output is for research discussion, not investment advice.";
     }
 
+    /**
+     * 把最终答案转换成 SSE 事件列表。
+     *
+     * 这是理解流式接口的关键方法之一。
+     *
+     * 为什么要做这一步？
+     * 因为前端的流式 UI 往往不只是想拿一段最终文本，
+     * 它还可能想实时显示：
+     * - 当前走的模式是什么
+     * - 查了哪些资料
+     * - 有没有 fresh data
+     * - 正文现在输出到哪一段了
+     *
+     * 所以这里不是只返回一个字符串，
+     * 而是返回一个“事件数组”，每个事件各自承担不同职责。
+     */
     private static List<RuntimeStreamEvent> buildStreamEvents(RuntimeAnswer answer, RuntimeTrace trace) {
         List<RuntimeStreamEvent> events = new ArrayList<>();
 
+        // 事件 1：告诉前端“这次执行开始了”，同时带上 traceId 和 skillVersion。
         events.add(new RuntimeStreamEvent("trace_start", "start",
                 Map.of("traceId", trace.getTraceId(), "skillVersion", trace.getSkillVersion())));
 
+        // 事件 2：告诉前端“系统把这条问题识别成了什么模式”。
         events.add(new RuntimeStreamEvent("mode_detected", trace.getMode().name(),
                 Map.of("source", trace.getModeSource(), "confidence", trace.getModeConfidence())));
 
+        // 事件 3：把运行中调用过的工具步骤抛给前端，方便做调试或过程展示。
         for (ToolCallRecord call : trace.getToolCalls()) {
             events.add(new RuntimeStreamEvent("tool_call", call.name(),
                     Map.of("status", call.status(), "detail", call.detail())));
         }
 
+        // 事件 4：把引用来源逐条发出去，前端可以做“依据来源”展示。
         for (CitationRecord citation : answer.citations()) {
             events.add(new RuntimeStreamEvent("source_cited", citation.excerpt(), Map.of(
                     "filePath", citation.filePath(),
@@ -293,6 +465,7 @@ public class JinjianRuntimeService {
                     "contextType", citation.contextType().name())));
         }
 
+        // 事件 5：如果有 fresh data，再额外告诉前端当前事实数据来自哪里、时间点是什么。
         if (answer.freshFact() != null) {
             events.add(new RuntimeStreamEvent("fresh_data", answer.freshFact().ticker(), Map.of(
                     "source", answer.freshFact().source(),
@@ -300,13 +473,17 @@ public class JinjianRuntimeService {
                     "fromCache", answer.freshFact().fromCache())));
         }
 
+        // 事件 6：把正文切成多块，每块作为一个 answer_chunk 推送。
+        // 这样前端就可以逐段渲染，看起来像模型正在边想边输出。
         for (String chunk : chunkText(answer.reply(), 320)) {
             events.add(new RuntimeStreamEvent("answer_chunk", chunk, Map.of()));
         }
 
+        // 事件 7：正文完了以后，再补一个免责声明事件。
         events.add(new RuntimeStreamEvent("disclaimer", answer.disclaimer(),
                 Map.of("degradeStatus", answer.degradeStatus().name())));
 
+        // 事件 8：收尾事件，用来告诉前端这次流程真的结束了，并附带一些元信息。
         Map<String, Object> tail = new HashMap<>();
         tail.put("traceId", trace.getTraceId());
         tail.put("latencyMs", trace.getLatencyMillis());
@@ -317,6 +494,13 @@ public class JinjianRuntimeService {
         return events;
     }
 
+    /**
+     * 按固定最大长度切分文本。
+     *
+     * 这不是自然语言层面的智能分段，
+     * 只是一个简单、稳定的“按字符数切块”策略。
+     * 它的目的不是让文本更优美，而是方便流式输出。
+     */
     private static List<String> chunkText(String text, int maxChars) {
         if (!StringUtils.hasText(text)) {
             return List.of();

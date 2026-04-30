@@ -23,7 +23,17 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 /**
- * Local archive evidence retrieval using raw monthly files as the final authority.
+ * 本地归档证据检索服务。
+ *
+ * 这个类的作用可以简单理解成：
+ * “去本地 Markdown 归档里，把和问题相关的原始依据找出来。”
+ *
+ * 在这个项目里，月度归档文件是最权威的来源。
+ * 所以这里的核心工作不是调用外部搜索引擎，而是：
+ * 1. 决定该搜哪些本地文件
+ * 2. 在文件里按关键词找命中行
+ * 3. 根据命中行回推出所属 section
+ * 4. 把结果封装成可引用的 `ArchiveEvidence`
  */
 @Service
 public class ArchiveEvidenceService {
@@ -34,10 +44,28 @@ public class ArchiveEvidenceService {
 
     private final JinjianRuntimeProperties runtimeProperties;
 
+    /**
+     * 注入运行时配置。
+     * 配置里会告诉这个服务归档根目录、概览索引路径、派生文档根目录等信息。
+     */
     public ArchiveEvidenceService(JinjianRuntimeProperties runtimeProperties) {
         this.runtimeProperties = runtimeProperties;
     }
 
+    /**
+     * 在原始归档里搜索证据。
+     *
+     * 处理顺序：
+     * 1. 先把 ticker 和关键词整理成搜索词
+     * 2. 如有需要，先从 overview 索引里缩小到可能相关的月份
+     * 3. 收集候选归档文件
+     * 4. 逐文件逐行扫描命中内容
+     * 5. 根据命中行定位所属 section
+     * 6. 组装成 `ArchiveEvidence`
+     *
+     * 这个方法的重点不是“智能语义搜索”，
+     * 而是尽量找到可核验、可追溯的原始文本依据。
+     */
     public List<ArchiveEvidence> searchLocalArchive(String ticker, String keywords, int limit) {
         List<String> terms = collectTerms(ticker, keywords);
         if (terms.isEmpty()) {
@@ -82,6 +110,12 @@ public class ArchiveEvidenceService {
         return matches;
     }
 
+    /**
+     * 按 sourceFilePath + locator 读取一整段原始归档内容。
+     *
+     * 前面搜索结果里通常只带一个摘要和一个定位符，
+     * 如果后续需要还原整段原文，就用这个方法。
+     */
     public String readArchiveSection(String sourceFilePath, String locator) {
         Path sourceFile = Paths.get(sourceFilePath).normalize();
         try {
@@ -105,6 +139,12 @@ public class ArchiveEvidenceService {
         }
     }
 
+    /**
+     * 在派生文档中搜索辅助证据。
+     *
+     * 这类文档通常是对原始归档做过整理的说明文档或索引文档，
+     * 权威性低于原始月度归档，但更适合作为辅助上下文。
+     */
     public List<ArchiveEvidence> searchDerivedDocs(String keywords, int limit) {
         List<String> terms = collectTerms(null, keywords);
         if (terms.isEmpty()) {
@@ -156,6 +196,10 @@ public class ArchiveEvidenceService {
         return matches;
     }
 
+    /**
+     * 收集需要参与搜索的原始归档文件。
+     * 如果有 monthHints，就尽量只保留更可能相关的月份文件。
+     */
     private List<Path> collectRawArchiveFiles(Set<String> monthHints) {
         List<Path> files = new ArrayList<>();
         for (String root : this.runtimeProperties.getArchiveRoots()) {
@@ -175,6 +219,10 @@ public class ArchiveEvidenceService {
         return files;
     }
 
+    /**
+     * 从概览索引中提取“可能相关的月份提示”。
+     * 这是一个先粗筛月份、再精搜原文的优化步骤。
+     */
     private Set<String> readMonthHintsFromOverview(List<String> terms) {
         Path overview = resolvePath(this.runtimeProperties.getArchiveOverviewPath());
         if (!Files.exists(overview)) {
@@ -198,6 +246,9 @@ public class ArchiveEvidenceService {
         return hints;
     }
 
+    /**
+     * 判断某个文件名是否命中月份提示。
+     */
     private static boolean matchesMonthHint(Path file, Set<String> hints) {
         if (hints == null || hints.isEmpty()) {
             return true;
@@ -211,6 +262,10 @@ public class ArchiveEvidenceService {
         return false;
     }
 
+    /**
+     * 根据命中行回推出所属的 section。
+     * 做法是向上找最近标题、向下找下一个标题。
+     */
     private static Section locateSection(List<String> lines, int hitIndex) {
         int start = hitIndex;
         for (int i = hitIndex; i >= 0; i--) {
@@ -233,6 +288,10 @@ public class ArchiveEvidenceService {
         return new Section(start, end, heading, text);
     }
 
+    /**
+     * 判断命中内容更像正文、评论还是作者回复。
+     * 这是一个基于附近文本标记的启发式分类。
+     */
     private static CitationContextType detectContextType(List<String> lines, int sectionStart, int hitIndex, int sectionEnd) {
         int from = Math.max(sectionStart, hitIndex - 6);
         int to = Math.min(sectionEnd, hitIndex + 6);
@@ -248,6 +307,9 @@ public class ArchiveEvidenceService {
         return CitationContextType.BODY;
     }
 
+    /**
+     * 把命中行压缩成适合展示的摘要。
+     */
     private static String buildExcerpt(String line) {
         if (!StringUtils.hasText(line)) {
             return "";
@@ -256,6 +318,10 @@ public class ArchiveEvidenceService {
         return compact.length() > 180 ? compact.substring(0, 180) + "..." : compact;
     }
 
+    /**
+     * 判断一行是不是标题行。
+     * 当前把 `# ` 和 `## ` 开头的行都当作 section 分隔点。
+     */
     private static boolean isHeading(String line) {
         if (!StringUtils.hasText(line)) {
             return false;
@@ -264,6 +330,9 @@ public class ArchiveEvidenceService {
         return trimmed.startsWith("## ") || trimmed.startsWith("# ");
     }
 
+    /**
+     * 判断一行里是否包含任意一个搜索词。
+     */
     private static boolean containsAny(String line, List<String> terms) {
         if (!StringUtils.hasText(line)) {
             return false;
@@ -277,6 +346,9 @@ public class ArchiveEvidenceService {
         return false;
     }
 
+    /**
+     * 整理搜索词列表，并做去重。
+     */
     private static List<String> collectTerms(String ticker, String keywords) {
         LinkedHashSet<String> values = new LinkedHashSet<>();
         if (StringUtils.hasText(ticker)) {
@@ -293,6 +365,9 @@ public class ArchiveEvidenceService {
         return new ArrayList<>(values);
     }
 
+    /**
+     * 解析配置路径，兼容绝对路径和相对路径。
+     */
     private static Path resolvePath(String configuredPath) {
         Path path = Paths.get(configuredPath).normalize();
         if (path.isAbsolute()) {
@@ -313,6 +388,9 @@ public class ArchiveEvidenceService {
         return direct;
     }
 
+    /**
+     * 内部小结构，表示一次命中所在的区段。
+     */
     private record Section(int start, int end, String heading, String text) {
     }
 }
