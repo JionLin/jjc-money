@@ -93,34 +93,30 @@ Notes:
 - If fallback occurred, say so explicitly.
 - Do not describe aggregate-provider values as if they were reported directly by the company.
 
-## Current 26year NVDA index coverage
+## Current 26year NVDA source coverage
 
 Verification date: 2026-04-19
 
 - Source files checked: `26year/26-01.md`, `26year/26-02月.md`, `26year/2026-03.md`
 - Query used: `英伟达|NVDA|Nvidia|英偉達`
 - Result in source files: matches found in all three files
-- Result in `docs/indexes/`: current matches found only in older `2025-*` monthly indexes, not in `2026-*` month indexes
-- Conclusion: `26year/` NVDA-related content exists in source files but is not yet represented in the current 2026 index set.
+- Result in `docs/indexes/`: optional overview material may lag behind source updates and should not be treated as required retrieval state
+- Conclusion: `26year/` NVDA-related content is already retrievable from source files without relying on maintained monthly indexes.
 
-## 26year index maintenance targets
+## 26year source-first maintenance targets
 
-When `26year/` content changes, update these index files:
+When `26year/` content changes, the required maintenance target is the source file itself:
 
-- `26year/26-01.md` -> `docs/indexes/monthly/2026-01.md`
-- `26year/26-02月.md` -> `docs/indexes/monthly/2026-02.md`
-- `26year/2026-03.md` -> `docs/indexes/monthly/2026-03.md`
-
-Also update:
-- `docs/indexes/archive-index.md`
+- `26year/26-01.md`
+- `26year/26-02月.md`
+- `26year/2026-03.md`
 
 Reason:
-- month-level index files store article-level retrieval data
-- `archive-index.md` stores month-level coverage, counts, date ranges, topics, and links
+- source files are the final authority
+- archive overview files are optional navigation only
 
 ## Checklist when a new `26year/` month file is added
 
-1. Create or refresh the corresponding `docs/indexes/monthly/YYYY-MM.md`
-2. Add or refresh the month row in `docs/indexes/archive-index.md`
-3. Verify article count, date range, source file name, and locator style against the source month file
-4. If the month file uses a newer local structure, index by its actual local headings and metadata instead of assuming the older archive pattern
+1. Add or refresh the source month file under `26year/`
+2. Verify article headings, publication dates, and local section markers directly in the source file
+3. Refresh `docs/indexes/archive-index.md` only if a task explicitly asks for the optional overview to be updated

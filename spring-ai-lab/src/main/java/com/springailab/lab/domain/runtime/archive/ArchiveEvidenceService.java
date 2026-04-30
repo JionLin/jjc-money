@@ -224,7 +224,11 @@ public class ArchiveEvidenceService {
      * 这是一个先粗筛月份、再精搜原文的优化步骤。
      */
     private Set<String> readMonthHintsFromOverview(List<String> terms) {
-        Path overview = resolvePath(this.runtimeProperties.getArchiveOverviewPath());
+        String overviewPath = this.runtimeProperties.getArchiveOverviewPath();
+        if (!StringUtils.hasText(overviewPath)) {
+            return Set.of();
+        }
+        Path overview = resolvePath(overviewPath);
         if (!Files.exists(overview)) {
             return Set.of();
         }

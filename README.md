@@ -11,7 +11,7 @@
 ## 目录结构
 
 - `22-25year/`：按月份整理的 Markdown 归档内容
-- `docs/indexes/`：索引与辅助文档
+- `docs/indexes/`：可选概览文档（不参与常规维护也不影响主流程）
 - `CLAUDE.md`：仓库协作与内容处理说明
 
 ## 内容格式
@@ -33,4 +33,4 @@
 
 `jjc-money` is a personal Markdown archive of articles and related content, mainly organized by month.
 
-Most of the archive lives in `22-25year/`, while `docs/indexes/` contains supporting indexes. If you are browsing this repository for the first time, start with the monthly files under `22-25year/`.
+Most of the archive lives in `22-25year/` and `26year/`. `docs/indexes/` is now optional overview material only and may be stale. If you are browsing this repository for the first time, start with the monthly source files.

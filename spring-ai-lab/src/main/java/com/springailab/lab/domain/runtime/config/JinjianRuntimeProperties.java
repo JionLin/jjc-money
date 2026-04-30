@@ -19,13 +19,13 @@ public class JinjianRuntimeProperties {
 
     private boolean failFastOnSkillError = true;
 
-    private boolean overviewNarrowingEnabled = true;
+    private boolean overviewNarrowingEnabled = false;
 
     private boolean debugEnabled = true;
 
     private List<String> archiveRoots = new ArrayList<>(List.of("22-25year", "26year"));
 
-    private String archiveOverviewPath = "docs/indexes/archive-index.md";
+    private String archiveOverviewPath = "";
 
     private List<String> derivedDocRoots = new ArrayList<>(List.of("docs/topology-details", "docs/deep-analysis"));
 

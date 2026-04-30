@@ -38,12 +38,12 @@ lab:
     skill-path: ${LAB_RUNTIME_SKILL_PATH:.agent/skills/jinjian-perspective/SKILL.md}
     minimum-skill-version: ${LAB_RUNTIME_MIN_SKILL_VERSION:2.0}
     fail-fast-on-skill-error: ${LAB_RUNTIME_FAIL_FAST:true}
-    overview-narrowing-enabled: ${LAB_RUNTIME_OVERVIEW_NARROWING:true}
+    overview-narrowing-enabled: ${LAB_RUNTIME_OVERVIEW_NARROWING:false}
     debug-enabled: ${LAB_RUNTIME_DEBUG_ENABLED:true}
     archive-roots:
       - ${LAB_RUNTIME_ARCHIVE_ROOT_1:22-25year}
       - ${LAB_RUNTIME_ARCHIVE_ROOT_2:26year}
-    archive-overview-path: ${LAB_RUNTIME_ARCHIVE_OVERVIEW_PATH:docs/indexes/archive-index.md}
+    archive-overview-path: ${LAB_RUNTIME_ARCHIVE_OVERVIEW_PATH:}
     derived-doc-roots:
       - ${LAB_RUNTIME_DERIVED_ROOT_1:docs/topology-details}
       - ${LAB_RUNTIME_DERIVED_ROOT_2:docs/deep-analysis}
