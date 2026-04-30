@@ -225,7 +225,11 @@ public class JinjianRuntimeService {
         }
         sb.append("Archive Evidence:\n");
         for (CitationRecord c : answer.citations()) {
-            sb.append("- ").append(c.excerpt()).append("\n");
+            String text = c.fullText();
+            if (text != null && text.length() > 1200) {
+                text = "【精确命中】: " + c.excerpt() + "\n【段落节选】: " + text.substring(0, 1200) + "...(字数过长已截断)";
+            }
+            sb.append("- ").append(text).append("\n");
         }
         sb.append("=========================\n");
         sb.append("请严格遵循 SKILL 中的约束。如果你认为 Context 证据不足以支撑当前结论，请明确指出。\n");
@@ -264,12 +268,13 @@ public class JinjianRuntimeService {
         // 第一步：查原始归档。
         // 这些归档是“作者过去真实写过的内容”，优先级最高。
         List<ArchiveEvidence> primaryEvidence = this.archiveEvidenceService.searchLocalArchive(ticker, message, 4);
+
         trace.addToolCall(new ToolCallRecord("searchLocalArchive", "ok", "matches=" + primaryEvidence.size()));
 
         List<CitationRecord> citations = new ArrayList<>();
         for (ArchiveEvidence evidence : primaryEvidence) {
-            citations.add(new CitationRecord(evidence.filePath(), evidence.locator(), evidence.excerpt(), evidence.contextType()));
-            trace.addCitation(new CitationRecord(evidence.filePath(), evidence.locator(), evidence.excerpt(), evidence.contextType()));
+            citations.add(new CitationRecord(evidence.filePath(), evidence.locator(), evidence.excerpt(), evidence.contextType(), evidence.sectionText()));
+            trace.addCitation(new CitationRecord(evidence.filePath(), evidence.locator(), evidence.excerpt(), evidence.contextType(), evidence.sectionText()));
         }
 
         // 第二步：查派生分析文档。
@@ -277,8 +282,8 @@ public class JinjianRuntimeService {
         List<ArchiveEvidence> derived = this.archiveEvidenceService.searchDerivedDocs(ticker + " " + message, 2);
         trace.addToolCall(new ToolCallRecord("searchDerivedDocs", "ok", "matches=" + derived.size()));
         for (ArchiveEvidence evidence : derived) {
-            citations.add(new CitationRecord(evidence.filePath(), evidence.locator(), evidence.excerpt(), evidence.contextType()));
-            trace.addCitation(new CitationRecord(evidence.filePath(), evidence.locator(), evidence.excerpt(), evidence.contextType()));
+            citations.add(new CitationRecord(evidence.filePath(), evidence.locator(), evidence.excerpt(), evidence.contextType(), evidence.sectionText()));
+            trace.addCitation(new CitationRecord(evidence.filePath(), evidence.locator(), evidence.excerpt(), evidence.contextType(), evidence.sectionText()));
         }
 
         // 第三步：查 fresh data。
@@ -317,7 +322,7 @@ public class JinjianRuntimeService {
 
         List<CitationRecord> citations = new ArrayList<>();
         for (ArchiveEvidence evidence : primaryEvidence) {
-            CitationRecord citation = new CitationRecord(evidence.filePath(), evidence.locator(), evidence.excerpt(), evidence.contextType());
+            CitationRecord citation = new CitationRecord(evidence.filePath(), evidence.locator(), evidence.excerpt(), evidence.contextType(), evidence.sectionText());
             citations.add(citation);
             trace.addCitation(citation);
         }
@@ -328,7 +333,7 @@ public class JinjianRuntimeService {
             List<ArchiveEvidence> derived = this.archiveEvidenceService.searchDerivedDocs(message, 3);
             trace.addToolCall(new ToolCallRecord("searchDerivedDocs", "ok", "matches=" + derived.size()));
             for (ArchiveEvidence evidence : derived) {
-                CitationRecord citation = new CitationRecord(evidence.filePath(), evidence.locator(), evidence.excerpt(), evidence.contextType());
+                CitationRecord citation = new CitationRecord(evidence.filePath(), evidence.locator(), evidence.excerpt(), evidence.contextType(), evidence.sectionText());
                 citations.add(citation);
                 trace.addCitation(citation);
             }
