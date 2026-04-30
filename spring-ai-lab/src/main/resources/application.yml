@@ -11,7 +11,7 @@ spring:
   application:
     name: server
   profiles:
-    active: minimax
+    active: gpt
 
 logging:
   pattern:
