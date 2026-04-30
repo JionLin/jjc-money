@@ -160,51 +160,59 @@ public class JinjianRuntimeService {
      * 3. 接入 Spring AI ChatClient，将数据转化为上下文，交由大模型生成。
      */
     public Flux<RuntimeStreamEvent> executeStream(String conversationId, String message) {
-        // 1. 获取证据和上下文 (非常快，纯本地操作)
-        RuntimeAnswer answer = this.execute(conversationId, message);
-        RuntimeTrace trace = answer.trace();
-
-        // 2. 准备元数据流 (立即推送给前端)
-        List<RuntimeStreamEvent> metaEvents = new ArrayList<>(answer.streamEvents());
-        // 过滤掉原有的伪流式正文和结尾事件
-        metaEvents.removeIf(e -> e.name().equals("answer_chunk") || e.name().equals("disclaimer") || e.name().equals("trace_end"));
-        Flux<RuntimeStreamEvent> metaFlux = Flux.fromIterable(metaEvents);
-
-        // 3. 构建大模型 Prompt
-        String systemPrompt = loadSkillPrompt();
-        String contextStr = buildLlmContext(answer);
-
-        // 4. 调用大模型，实时生成并转为事件流
-        Flux<RuntimeStreamEvent> llmFlux = this.chatClient.prompt()
-                .system(sys -> sys.text(systemPrompt + "\n\n" + contextStr))
-                .user(message)
-                .stream()
-                .content()
-                .filter(StringUtils::hasText)
-                .map(chunk -> new RuntimeStreamEvent("answer_chunk", chunk, Map.of()));
-
-        // 5. 准备收尾流
-        Flux<RuntimeStreamEvent> endFlux = Flux.defer(() -> {
-            trace.setLatencyMillis(Duration.between(trace.getStartedAt(), Instant.now()).toMillis());
-            this.traceStore.put(trace);
-            
-            Map<String, Object> tail = new HashMap<>();
-            tail.put("traceId", trace.getTraceId());
-            tail.put("latencyMs", trace.getLatencyMillis());
-            tail.put("degradeStatus", answer.degradeStatus().name());
-            tail.put("estimatedCost", trace.getEstimatedCost());
-            
-            return Flux.just(
-                    new RuntimeStreamEvent("disclaimer", answer.disclaimer(), Map.of("degradeStatus", answer.degradeStatus().name())),
-                    new RuntimeStreamEvent("trace_end", "done", tail)
-            );
-        });
-
-        // 6. 像水管一样拼起来
-        Flux<RuntimeStreamEvent> initialTextFlux = Flux.just(
-                new RuntimeStreamEvent("answer_chunk", "💡 *大模型正在深度思考中，请稍候...*\n\n", Map.of())
+        // 1. 立即响应部分：Padding 和 状态提示 (确保前端瞬间收到响应)
+        Flux<RuntimeStreamEvent> initialFlux = Flux.just(
+                new RuntimeStreamEvent("answer_chunk", "💡 *大模型正在深度思考中，请稍候...*\n\n", Map.of()),
+                new RuntimeStreamEvent("padding", " ".repeat(8192), Map.of())
         );
-        return Flux.concat(metaFlux, initialTextFlux, llmFlux, endFlux);
+
+        // 2. 延迟执行部分：将原本同步的逻辑搬进 defer，并指定后台线程池
+        Flux<RuntimeStreamEvent> heavyWorkFlux = Flux.defer(() -> {
+            // 这里才是真正的耗时操作（如本地检索、Fresh Data 获取）
+            RuntimeAnswer answer = this.execute(conversationId, message);
+            RuntimeTrace trace = answer.trace();
+
+            // 准备元数据流 (在 execute 完成后立即推送给前端)
+            List<RuntimeStreamEvent> metaEvents = new ArrayList<>(answer.streamEvents());
+            // 过滤掉原有的伪流式正文和结尾事件
+            metaEvents.removeIf(e -> e.name().equals("answer_chunk") || e.name().equals("disclaimer") || e.name().equals("trace_end"));
+            Flux<RuntimeStreamEvent> metaFlux = Flux.fromIterable(metaEvents);
+
+            // 构建大模型 Prompt
+            String systemPrompt = loadSkillPrompt();
+            String contextStr = buildLlmContext(answer);
+
+            // 调用大模型，实时生成并转为事件流
+            Flux<RuntimeStreamEvent> llmFlux = this.chatClient.prompt()
+                    .system(sys -> sys.text(systemPrompt + "\n\n" + contextStr))
+                    .user(message)
+                    .stream()
+                    .content()
+                    .filter(StringUtils::hasText)
+                    .map(chunk -> new RuntimeStreamEvent("answer_chunk", chunk, Map.of()));
+
+            // 准备收尾流
+            Flux<RuntimeStreamEvent> endFlux = Flux.defer(() -> {
+                trace.setLatencyMillis(Duration.between(trace.getStartedAt(), Instant.now()).toMillis());
+                this.traceStore.put(trace);
+                
+                Map<String, Object> tail = new HashMap<>();
+                tail.put("traceId", trace.getTraceId());
+                tail.put("latencyMs", trace.getLatencyMillis());
+                tail.put("degradeStatus", answer.degradeStatus().name());
+                tail.put("estimatedCost", trace.getEstimatedCost());
+                
+                return Flux.just(
+                        new RuntimeStreamEvent("disclaimer", answer.disclaimer(), Map.of("degradeStatus", answer.degradeStatus().name())),
+                        new RuntimeStreamEvent("trace_end", "done", tail)
+                );
+            });
+
+            return Flux.concat(metaFlux, llmFlux, endFlux);
+        }).subscribeOn(reactor.core.scheduler.Schedulers.boundedElastic());
+
+        // 3. 将初始流和重活流串联
+        return Flux.concat(initialFlux, heavyWorkFlux);
     }
 
     private String loadSkillPrompt() {
