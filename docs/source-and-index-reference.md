@@ -100,8 +100,7 @@ Verification date: 2026-04-19
 - Source files checked: `26year/26-01.md`, `26year/26-02月.md`, `26year/2026-03.md`
 - Query used: `英伟达|NVDA|Nvidia|英偉達`
 - Result in source files: matches found in all three files
-- Result in `docs/indexes/`: optional overview material may lag behind source updates and should not be treated as required retrieval state
-- Conclusion: `26year/` NVDA-related content is already retrievable from source files without relying on maintained monthly indexes.
+- Conclusion: `26year/` NVDA-related content is already retrievable from source files directly.
 
 ## 26year source-first maintenance targets
 
@@ -113,10 +112,8 @@ When `26year/` content changes, the required maintenance target is the source fi
 
 Reason:
 - source files are the final authority
-- archive overview files are optional navigation only
 
 ## Checklist when a new `26year/` month file is added
 
 1. Add or refresh the source month file under `26year/`
 2. Verify article headings, publication dates, and local section markers directly in the source file
-3. Refresh `docs/indexes/archive-index.md` only if a task explicitly asks for the optional overview to be updated

@@ -7,14 +7,13 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 This repository is a Markdown content archive, not an application codebase.
 
 - Source of truth: `22-25year/` monthly archive files.
-- Optional overview helper: `docs/indexes/archive-index.md`.
 - Project overview: `README.md` explains the repo as a long-lived personal archive organized primarily by month.
-- Overview files may help orient you, but they are not authoritative and may be stale; always verify final answers and edits against the source files in `22-25year/` or `26year/`.
+- Always verify final answers and edits against the source files in `22-25year/` or `26year/`.
 
 The archive is organized around a source-first retrieval model:
 1. search raw source files under `22-25year/` and `26year/`
 2. locate candidate articles by heading, publication date, or local section markers
-3. optionally consult `docs/indexes/archive-index.md` as a month-level overview when it is useful
+3. verify final claims in the matched source section
 
 ## Content structure
 
@@ -41,13 +40,11 @@ Some archive files may include mixed encodings or non-text bytes (`\0`). Verify 
 - Preserve the local formatting style of the target file.
 - Locate content by exact article heading, publication date, or local section markers rather than approximate position.
 - Be careful with bulk replacements: repeated phrases can appear in both article text and comment sections.
-- If overview content and source content disagree, trust the source files. Do not maintain overview files unless the task explicitly calls for it.
+- Trust the source files if any derived notes or older docs disagree.
 
 ## Key files
 
 - `22-25year/` — authoritative monthly archive files
-- `docs/indexes/archive-index.md` — optional month-level overview; may be stale
-- `docs/indexes/README.md` — notes about the optional overview layer
 - `README.md` — high-level repository description
 
 ## Commands
@@ -63,20 +60,10 @@ Find source articles by heading/date:
 - `rg "^## " /Users/johnny/Documents/jjc-money/22-25year/*.md`
 - `rg "2025-11|关键词" /Users/johnny/Documents/jjc-money/22-25year/*.md`
 
-Optional overview check:
-- `rg "2025-11|关键词" /Users/johnny/Documents/jjc-money/docs/indexes/archive-index.md`
 - `rg "^## |^# |^\*\*📅 发布日期\*\*" /Users/johnny/Documents/jjc-money/22-25year/25-12月.md /Users/johnny/Documents/jjc-money/26year/*.md`
 
 Single-file inspection examples:
 - `rg "英伟达|NVDA" /Users/johnny/Documents/jjc-money/22-25year/2025-11\(共9篇\).md`
 - `rg "英伟达|NVDA" /Users/johnny/Documents/jjc-money/26year/2026-04.md`
-
-## Overview maintenance model
-
-`docs/indexes/archive-index.md` is optional and is no longer part of the default monthly maintenance workflow.
-
-When work explicitly involves refreshing the overview:
-1. update `docs/indexes/archive-index.md`
-2. keep month names, source file paths, and date ranges aligned with the source month file
 
 For `2025-12` and `26year/` files, rely on local section markers and publication dates rather than assuming older `## YYYY-MM-DD_金渐成_标题` headings.
