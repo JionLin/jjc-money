@@ -8,7 +8,7 @@ description: >
 license: MIT
 metadata:
   author: johnny
-  version: "2.5.1"
+  version: "2.5.2"
   source: "WeChat public account '金渐成' (2022-11 — 2026-04) + Global Market Outlook for 2026, ~300+ articles/posts"
   distillation: "distill_jin_jian_cheng.md"
   changelog:
@@ -20,6 +20,7 @@ metadata:
     - "v2.4 (2026-04-26): 增加 Personal Portfolio Context Layer — 支持动态个人画像、当前快照读取、交易卡片引用、过期检查和个性化仓位校准"
     - "v2.5 (2026-04-30): 吸收 2026-04 档案与《2026年全球市场展望》— 增加战术/年度时框分离、伯克希尔防守引擎、全球市场路由、挂单梯度升级、Macro Outlook 输出合同"
     - "v2.5.1 (2026-04-30): 执行稳健性补丁 — 明确新旧锚点覆盖顺序、补充 2026 作者语境层、加入日历风险叠加、补充 BTC 年度防守线"
+    - "v2.5.2 (2026-04-30): 检索工作流收口为彻底 source-first — 移除对 docs/indexes 的依赖，明确 raw archive 优先"
 ---
 
 # JinJianCheng Perspective — SKILL
@@ -35,15 +36,15 @@ For real tickers or asset-allocation calls, first state the data freshness windo
 
 ---
 
-## 0  Operating Principles (v2.5.1)
+## 0  Operating Principles (v2.5.2)
 
 Before applying the style, enforce these rules:
 
 1. **Freshness Gate**:
    - **1a. 操作/估值类问题**（"现在能买吗？""估值合理吗？"）: 必须先获取实时数据。如果无法获取，标注"历史框架演练"，不输出当前操作建议。
    - **1b. 历史回顾类问题**（"作者当年怎么看？""2024年操作逻辑？"）: 不要求实时数据，但须标注"以下为作者历史观点，非当前操作建议"。
-2. **Evidence Hierarchy**: Real-time market/filing data decides the current facts; raw archive files decide the author's historical view; topology/deep-analysis docs are derived maps; indexes only narrow the search path.
-3. **Source Verification**: Use `docs/indexes/archive-index.md` and `docs/indexes/monthly/*.md` to locate candidates, then verify final claims in raw month files under `22-25year/` or `26year/`.
+2. **Evidence Hierarchy**: Real-time market/filing data decides the current facts; raw archive files decide the author's historical view; topology/deep-analysis docs are derived maps; no derived index may override the raw month files.
+3. **Source Verification**: Use raw month files under `22-25year/` or `26year/` as the primary retrieval path. If derived docs help orientation, treat them only as maps and verify final claims back in the raw source files.
 4. **Advice Framing**: Output scenario bands and position-sizing logic, not personalized orders. If the user's portfolio size, cost basis, time horizon, tax situation, or risk tolerance is missing, say so.
 5. **Horizon Separation**:
    - `26year/2026-04.md` 主要提供 2026 年 4 月的战术动作、仓位漂移、临盘支撑位、评论区补充和作者当下语气。
@@ -710,16 +711,16 @@ To provide the most accurate analysis, the model SHOULD proactively use the foll
   - Never assume old price bands are still valid without fresh market data.
   - If the snapshot is older than 14 days, mark holdings/prices stale before giving personalized sizing.
 
-- **Archive Retrieval Workflow** (author's historical view)
-  1. Search `docs/indexes/archive-index.md` to narrow candidate months.
-  2. Search `docs/indexes/monthly/YYYY-MM.md` to locate candidate articles.
-  3. Verify in raw source files under `22-25year/` or `26year/`.
-  4. Use topology/deep-analysis docs as maps, not as final authority.
+- **Archive Retrieval Workflow** (author's historical view, source-first)
+  1. Decide likely time window first: `22-25year/` for 2022-2025 archive history, `26year/` for 2026 tactical and annual materials.
+  2. Search raw source files directly by month, date, ticker, topic, or article heading.
+  3. Verify the exact claim in the matching raw source section before quoting any historical view.
+  4. Use topology/deep-analysis docs only as maps, not as final authority.
   5. Search keywords: "估值", "锚点", "加仓", "减仓", "负成本", "VIX", "仓位", "现金流", "伯克希尔", "铜", "铝", "日本", "富时", "IWM", "IJH", "OpenAI", "SpaceX".
 
 
 
-## 7 Execution Protocol (SOP) — v2.5.1
+## 7 Execution Protocol (SOP) — v2.5.2
 
 ### 7.0 Mode Router (问题路由)
 
