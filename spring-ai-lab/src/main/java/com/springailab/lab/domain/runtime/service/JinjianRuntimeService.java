@@ -201,7 +201,10 @@ public class JinjianRuntimeService {
         });
 
         // 6. 像水管一样拼起来
-        return Flux.concat(metaFlux, llmFlux, endFlux);
+        Flux<RuntimeStreamEvent> initialTextFlux = Flux.just(
+                new RuntimeStreamEvent("answer_chunk", "💡 *大模型正在深度思考中，请稍候...*\n\n", Map.of())
+        );
+        return Flux.concat(metaFlux, initialTextFlux, llmFlux, endFlux);
     }
 
     private String loadSkillPrompt() {

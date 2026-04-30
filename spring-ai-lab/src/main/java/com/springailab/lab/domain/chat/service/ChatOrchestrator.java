@@ -132,6 +132,7 @@ public class ChatOrchestrator {
 
         StringBuilder fullReply = new StringBuilder();
         this.runtimeService.executeStream(normalizedConversationId, normalizedMessage)
+                .subscribeOn(reactor.core.scheduler.Schedulers.boundedElastic())
                 .subscribe(
                         event -> {
                             if ("answer_chunk".equals(event.name())) {
