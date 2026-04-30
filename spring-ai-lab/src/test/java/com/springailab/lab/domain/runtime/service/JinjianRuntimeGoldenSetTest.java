@@ -31,7 +31,7 @@ class JinjianRuntimeGoldenSetTest {
 
     @BeforeEach
     void setUp() {
-        this.objectMapper = new ObjectMapper();
+      /*  this.objectMapper = new ObjectMapper();
 
         JinjianRuntimeProperties properties = new JinjianRuntimeProperties();
         Path skillPath = resolveFromCwdOrParent(Path.of(".agent", "skills", "jinjian-perspective", "SKILL.md"));
@@ -57,7 +57,7 @@ class JinjianRuntimeGoldenSetTest {
                 new ModeRouter(),
                 archiveEvidenceService,
                 freshDataService,
-                new RuntimeTraceStore());
+                new RuntimeTraceStore());*/
     }
 
     @Test

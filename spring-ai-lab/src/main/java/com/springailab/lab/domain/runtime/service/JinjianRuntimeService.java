@@ -92,7 +92,9 @@ public class JinjianRuntimeService {
         this.archiveEvidenceService = archiveEvidenceService;
         this.freshDataService = freshDataService;
         this.traceStore = traceStore;
-        this.chatClient = chatClientBuilder.build();
+        this.chatClient = chatClientBuilder
+                .defaultToolNames("getRealTimeStockData")
+                .build();
     }
 
     /**
@@ -240,7 +242,7 @@ public class JinjianRuntimeService {
             sb.append("- ").append(text).append("\n");
         }
         sb.append("=========================\n");
-        sb.append("请严格遵循 SKILL 中的约束。如果你认为 Context 证据不足以支撑当前结论，请明确指出。\n");
+        sb.append("请严格遵循 SKILL 中的约束。如果你认为 Context 证据不足以支撑当前结论（尤其是股价、估值缺失时），请优先使用 `getRealTimeStockData` 工具获取实时数据后再回答。\n");
         return sb.toString();
     }
 

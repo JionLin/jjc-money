@@ -11,7 +11,7 @@ spring:
   application:
     name: server
   profiles:
-    active: local
+    active: minimax
 
 logging:
   pattern:
