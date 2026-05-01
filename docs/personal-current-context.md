@@ -1,48 +1,48 @@
-# Personal Current Context
+# 个人当前快照
 
-> Last updated: 2026-05-01
-> Source: user-provided screenshots and conversation summary
-> Status: active snapshot; verify before execution if older than 14 days
+> 最后更新：2026-05-01
+> 来源：用户提供的截图与对话整理
+> 状态：当前有效快照；若超过 14 天未更新，执行前需重新核实
 
-## User Constraints
+## 用户约束
 
-- Age: 35
-- Max drawdown tolerance: about `-30%`
-- New capital inflow: no additional deposits planned for now
-- Time horizon: funds not needed in the near term
-- Tax constraints: not considered for now
-- Defensive preference: hold cash for now; do not buy `BRK.B` yet
+- 年龄：35 岁
+- 最大可承受回撤：约 `-30%`
+- 新增资金：暂不继续入金
+- 时间周期：这笔资金短期内用不到
+- 税务因素：暂不纳入考虑
+- 防守偏好：现阶段保留现金，暂不买入 `BRK.B`
 
-## Current Strategy Intent
+## 当前策略意图
 
-- Concentrate technology holdings toward `MSFT + NVDA`
-- Keep `MSFT` as the core backbone
-- Increase `NVDA` gradually, only on pullbacks
-- Exit `NVO` on rebounds rather than average down further
-- Use cash as defensive allocation for now
-- Prioritize exiting non-core holdings first
+- 科技仓逐步收缩并聚焦到 `MSFT + NVDA`
+- 保留 `MSFT` 作为核心骨架仓
+- `NVDA` 只在回撤时分批增加
+- `NVO` 以反弹分批退出为主，不再继续摊平
+- 现阶段继续用现金承担防守仓功能
+- 优先退出非核心持仓
 
-## Approximate Portfolio Snapshot
+## 当前近似持仓快照
 
-| Ticker | Approx Shares | Role |
+| 标的 | 近似股数 | 当前角色 |
 |---|---:|---|
-| `MSFT` | `52` | Core backbone; already heavy |
-| `NVDA` | `8` | Target increase |
-| `META` | `13` | Reduce on strength |
-| `AMZN` | `15` | Reduce on strength |
-| `GOOGL` | `0` | Fully sold; proceeds rolled into cash |
-| `UNH` | `6` | Priority source of funds |
-| `NVO` | `31` | Exit on rebounds; not a core holding |
-| Cash | `~$17,776 + GOOGL sale proceeds` | Dry powder / defense |
+| `MSFT` | `52` | 核心骨架仓，当前已偏重 |
+| `NVDA` | `8` | 未来重点提升 |
+| `META` | `13` | 冲高逐步减仓 |
+| `AMZN` | `15` | 冲高逐步减仓 |
+| `GOOGL` | `0` | 已全部卖出，资金并入现金 |
+| `UNH` | `6` | 优先腾挪资金来源 |
+| `NVO` | `31` | 反弹分批退出，非核心持仓 |
+| 现金 | `~$17,776 + GOOGL 卖出回笼资金` | 备用子弹 / 防守仓 |
 
-## Active Execution References
+## 当前执行参考
 
-- Trading card: [personal-portfolio-card.md](/Users/johnny/Documents/jjc-money/docs/personal-portfolio-card.md)
-- Long plan: [personal-portfolio-plan.md](/Users/johnny/Documents/jjc-money/docs/personal-portfolio-plan.md)
+- 交易卡片：[personal-portfolio-card.md](/Users/johnny/Documents/jjc-money/docs/personal-portfolio-card.md)
+- 长版计划：[personal-portfolio-plan.md](/Users/johnny/Documents/jjc-money/docs/personal-portfolio-plan.md)
 
-## Staleness Rules
+## 过期与优先级规则
 
-- If this file is older than 14 days, treat prices and holdings as stale.
-- If the user gives newer information in chat, use the newer chat information.
-- If market prices, earnings, or the user's portfolio have changed materially, refresh market data before analysis.
-- Treat this file as a user-provided snapshot, not permanent truth.
+- 如果本文件超过 14 天未更新，则默认其中的价格与持仓可能已过期。
+- 如果用户在对话里给出更新的持仓或计划，以对话中的新信息为准。
+- 如果市场价格、财报或用户仓位发生明显变化，分析前应优先刷新市场与持仓信息。
+- 本文件属于用户个人快照，不是永久事实。
