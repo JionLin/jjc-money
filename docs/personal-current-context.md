@@ -1,6 +1,6 @@
 # Personal Current Context
 
-> Last updated: 2026-04-26
+> Last updated: 2026-05-01
 > Source: user-provided screenshots and conversation summary
 > Status: active snapshot; verify before execution if older than 14 days
 
@@ -18,6 +18,7 @@
 - Concentrate technology holdings toward `MSFT + NVDA`
 - Keep `MSFT` as the core backbone
 - Increase `NVDA` gradually, only on pullbacks
+- Exit `NVO` on rebounds rather than average down further
 - Use cash as defensive allocation for now
 - Prioritize exiting non-core holdings first
 
@@ -29,14 +30,15 @@
 | `NVDA` | `8` | Target increase |
 | `META` | `13` | Reduce on strength |
 | `AMZN` | `15` | Reduce on strength |
-| `GOOGL` | `3` | Priority source of funds |
+| `GOOGL` | `0` | Fully sold; proceeds rolled into cash |
 | `UNH` | `6` | Priority source of funds |
-| Cash | `~$17,776` | Dry powder / defense |
+| `NVO` | `31` | Exit on rebounds; not a core holding |
+| Cash | `~$17,776 + GOOGL sale proceeds` | Dry powder / defense |
 
 ## Active Execution References
 
-- Trading card: [personal-portfolio-card-20260426.md](/Users/johnny/Documents/jjc-money/docs/personal-portfolio-card-20260426.md)
-- Long plan: [personal-portfolio-plan-20260426.md](/Users/johnny/Documents/jjc-money/docs/personal-portfolio-plan-20260426.md)
+- Trading card: [personal-portfolio-card.md](/Users/johnny/Documents/jjc-money/docs/personal-portfolio-card.md)
+- Long plan: [personal-portfolio-plan.md](/Users/johnny/Documents/jjc-money/docs/personal-portfolio-plan.md)
 
 ## Staleness Rules
 
