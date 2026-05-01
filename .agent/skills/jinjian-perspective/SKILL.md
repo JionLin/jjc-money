@@ -247,7 +247,7 @@ Step 5 — Output
 | **MSFT** | $355-$380 | $500+ |  [→](file:///Users/johnny/Documents/jjc-money/docs/msft-deep-analysis-20260501.md)  |
 | **META** | ≤$556 | $720+ |  [→](file:///Users/johnny/Documents/jjc-money/docs/meta-deep-analysis-20260501.md)  |
 | **GOOGL** | ≤$140 | $226+ | [→](file:///Users/johnny/Documents/jjc-money/docs/google-deep-analysis-20260424.md) |
-| **AMZN** | — | — |        [→](file:///Users/johnny/Documents/jjc-money/docs/AMZN_深度研判_金渐成视角.md)        |
+| **AMZN** | ≤$240 | $280+ |        [→](file:///Users/johnny/Documents/jjc-money/docs/amzn-deep-analysis-20260501.md)        |
 | **AAPL** | $230-$245 | $280+ |        [→](file:///Users/johnny/Documents/jjc-money/docs/AAPL_深度研判_金渐成视角.md)        |
 
 #### PEG 信号灯速查（方法论）
@@ -695,7 +695,7 @@ To provide the most accurate analysis, the model SHOULD proactively use the foll
   - **情景应对表** → `docs/topology-details/A_美股投资实战.md` §3.5
   - **三账户体系** → `docs/topology-details/C_仓位管理与配置.md` §2.2
   - **金字塔参数** → `docs/topology-details/C_仓位管理与配置.md` §2.3
-  - **个股深度报告** → `docs/*-deep-analysis-*.md` (NVDA/MSFT/GOOGL/META/AMZN/AAPL/BRK)
+  - **个股深度报告** → `docs/*-deep-analysis-*.md` (NVDA/MSFT/GOOGL/META/[AMZN](file:///Users/johnny/Documents/jjc-money/docs/amzn-deep-analysis-20260501.md)/AAPL/BRK)
   - **Override Rule**:
     `fresh market/fundamental data`
     → `Global Market Outlook for 2026.md` (when user asks 2026 annual support/targets)

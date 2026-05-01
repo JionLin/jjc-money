@@ -2,7 +2,7 @@
 
 > **权重**：约 35%（全部内容中占比最大）
 > **时间浓度**：2024下半年起急剧增加，2025-2026年成为绝对主线
-> **关联深度报告**：[NVDA](file:///Users/johnny/Documents/jjc-money/docs/nvda-deep-analysis-20260424.md) · [GOOGL](file:///Users/johnny/Documents/jjc-money/docs/google-deep-analysis-20260424.md) · [MSFT](file:///Users/johnny/Documents/jjc-money/docs/msft-deep-analysis-20260501.md) · [META](file:///Users/johnny/Documents/jjc-money/docs/meta-deep-analysis-20260501.md) · [AMZN](file:///Users/johnny/Documents/jjc-money/docs/AMZN_深度研判_金渐成视角.md) · [AAPL](file:///Users/johnny/Documents/jjc-money/docs/AAPL_深度研判_金渐成视角.md) · [BRK](file:///Users/johnny/Documents/jjc-money/docs/brk-deep-analysis-20260424.md)
+> **关联深度报告**：[NVDA](file:///Users/johnny/Documents/jjc-money/docs/nvda-deep-analysis-20260424.md) · [GOOGL](file:///Users/johnny/Documents/jjc-money/docs/google-deep-analysis-20260424.md) · [MSFT](file:///Users/johnny/Documents/jjc-money/docs/msft-deep-analysis-20260501.md) · [META](file:///Users/johnny/Documents/jjc-money/docs/meta-deep-analysis-20260501.md) · [AMZN](file:///Users/johnny/Documents/jjc-money/docs/amzn-deep-analysis-20260501.md) · [AAPL](file:///Users/johnny/Documents/jjc-money/docs/AAPL_深度研判_金渐成视角.md) · [BRK](file:///Users/johnny/Documents/jjc-money/docs/brk-deep-analysis-20260424.md)
 
 ---
 
@@ -205,7 +205,7 @@ NVDA（芯片设计·卖铲子）→ TSM（芯片制造·铲子的铲子）→ M
 | **GOOGL** | 516 | 进取型·第二重仓 | ~18-20% | "需要更多耐心"，护城河深但涨得慢 | [→](file:///Users/johnny/Documents/jjc-money/docs/google-deep-analysis-20260424.md) |
 | **MSFT** | 454 | 进取型·第三重仓 | ~11%→目标20% | "从07年拿到现在"，25倍收益 |  [→](file:///Users/johnny/Documents/jjc-money/docs/msft-deep-analysis-20260501.md)  |
 | **META** | 508 | 进取型·第四 | ~6.5% | "社交巨无霸"，大起大落是常态 |  [→](file:///Users/johnny/Documents/jjc-money/docs/meta-deep-analysis-20260501.md)  |
-| **AMZN** | 338 | 进取型·底仓 | 中等 | "不看PE看现金流"，机器人公司 |        [→](file:///Users/johnny/Documents/jjc-money/docs/AMZN_深度研判_金渐成视角.md)        |
+| **AMZN** | 338 | 进取型·底仓 | ~4.2-5.5% | "不看PE看现金流"，机器人公司+AI受益者 |        [→](file:///Users/johnny/Documents/jjc-money/docs/amzn-deep-analysis-20260501.md)        |
 | **AAPL** | 320 | 进取型·压舱石 | ~7% | "类债券资产"，现金奶牛 |        [→](file:///Users/johnny/Documents/jjc-money/docs/AAPL_深度研判_金渐成视角.md)        |
 | **TSLA** | 512 | 进取型·边缘 | ~1.5-2% | "七巨头中最妖"，偏离基本面 |                                        无独立报告                                        |
 
@@ -541,7 +541,7 @@ gantt
 
 ---
 
-#### 📈 AMZN 时间线 — "还没发力"的耐心持股
+#### 📈 AMZN 时间线 — 从"还没发力"到"回到它该有的位置"
 
 ```
 ~2023    ┃ 早期持有           成本极低，负成本状态
@@ -559,10 +559,26 @@ gantt
          ┃
 2025-11  ┃ 利好反弹 $254      OpenAI 380亿云协议利好
          ┃
-         ▼ 当前：负成本，"不看PE看现金流"，7成底仓长期不动
+2026-01  ┃ 观察               "亚马逊今年比较看好"
+         ┃                   设$215/$208加仓节点
+         ┃
+2026-02  ┃ 加仓 $198          "192左右的亚马逊，可口型饭菜"
+         ┃
+2026-03  ┃ 补仓计划           "在225、230减仓的那部分，准备捞点进来补仓"
+         ┃
+2026-04  ┃ 少量加仓           本轮下跌中少量加仓
+         ┃                   估值判断："亚马逊不贵"（$264附近）
+         ┃                   仓位占比：进取型 4.2–5.5%
+         ┃
+2026-04  ┃ Q1 财报后          AWS 28% YoY（15个季度最快）
+         ┃                   盘后涨 2.76%
+         ┃                   "预计减仓10%，实现负成本持股"
+         ┃
+         ▼ 当前：接近负成本，PEG 1.0–1.4（合理区间）
+              $280+ 减仓10%实现负成本 → 后续保留底仓长期不动
 ```
 
-**核心逻辑**：最有耐心的持仓 → 反复说"还没发力" → 不急不躁 → AWS云业务是核心估值锚
+**核心逻辑**：最有耐心的持仓 → "还没发力"→ 利空散去 → AWS 28% 增速回暖 → "回到它该有的位置" → 准备减仓做负成本
 
 ---
 
@@ -787,6 +803,8 @@ gantt
     负成本确认          :milestone, 2024-11, 0d
     加仓 $218→$150      :crit, amzn1, 2025-01, 2025-05
     做T $225            :amzn2, 2025-07, 2025-08
+    加仓 $198           :crit, amzn3, 2026-02, 2026-03
+    Q1财报·减仓计划     :amzn4, 2026-04, 2026-05
 
     section TSLA
     做空大赚            :crit, tsla0, 2022-12, 2023-01
@@ -1040,7 +1058,7 @@ gantt
 | **GOOGL** | ~23-30x | 1.5-2.5 | 合理但不便宜 | ≤$140 | $140-$226 | $226+ | [→](file:///Users/johnny/Documents/jjc-money/docs/google-deep-analysis-20260424.md) |
 | **MSFT** | ~24x (FY27) | 0.9-1.6 | 历史底部区间 | $355-$380 | $380-$500 | $500+ |  [→](file:///Users/johnny/Documents/jjc-money/docs/msft-deep-analysis-20260501.md)  |
 | **META** | ~22x | **1.0** | 合理区间偏下沿 | ≤$556 | $556-$720 | $720-$810 |  [→](file:///Users/johnny/Documents/jjc-money/docs/meta-deep-analysis-20260501.md)  |
-| **AMZN** | ~31x | 2.8 | ⚠️ 合理偏贵 | — | 持有为主 | — |        [→](file:///Users/johnny/Documents/jjc-money/docs/AMZN_深度研判_金渐成视角.md)        |
+| **AMZN** | ~30.7x | 1.0-1.4 | 🟡 合理区间 | ≤$240 | $240-$280 | $280+ |        [→](file:///Users/johnny/Documents/jjc-money/docs/amzn-deep-analysis-20260501.md)        |
 | **AAPL** | ~28-30x | ~2.0 | 类债券定价 | $230-$245 | $245-$280 | $280+ |        [→](file:///Users/johnny/Documents/jjc-money/docs/AAPL_深度研判_金渐成视角.md)        |
 | **TSM** | — | — | 负成本，跟随AI链 | ≤$200 | $200-$290 | $290+ |                                          —                                          |
 | **TSLA** | 无法用PE定价 | — | ⚠️ 偏离基本面 | 不建议加仓 | — | 逢高持续减仓 |                                          —                                          |
@@ -1054,7 +1072,7 @@ gantt
 | < 0.8 | 🟢 **低估** | 可分批建仓 | NVDA (0.69) |
 | 0.8 - 1.2 | 🟡 **合理** | 持有 / 做T | MSFT (0.9-1.6)、META (1.0) |
 | 1.2 - 1.5 | 🟠 **合理偏贵** | 观望 / 不追高 | GOOGL (1.5-2.5) |
-| > 2.0 | 🔴 **红旗** | 警惕估值透支 | AMZN (2.8)、AAPL (2.0) |
+| > 2.0 | 🔴 **红旗** | 警惕估值透支 | AAPL (2.0) |
 
 ### 作者历史买卖价位档案
 
@@ -1065,7 +1083,7 @@ gantt
 | MSFT | 2007年首次买入 | $503 减5% | 负成本 | 等$355-$380加仓，目标仓位→20% |
 | META | $550 建仓 | $780-$810 减仓 | $149 → $175+ | 设$720/$750/$780/$810 减仓 |
 | AAPL | — | $240 减仓 | 负成本 | 类债券持有，高抛低吸 |
-| AMZN | — | — | 负成本 | "不看PE看现金流"，持有为主 |
+| AMZN | $192-$218 加仓 | $225/$230 做T | 接近负成本 | Q1后$280+减仓10%实现负成本 |
 | TSM | $125-$160 建仓 | $225-$290 减仓 | 负成本 | 跟随AI链条逻辑 |
 | TSLA | 2022-12 做空大赚 | 持续减仓中 | 负成本 | 目标占比1.5%，逢高减 |
 
