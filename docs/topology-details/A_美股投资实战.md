@@ -2,7 +2,7 @@
 
 > **权重**：约 35%（全部内容中占比最大）
 > **时间浓度**：2024下半年起急剧增加，2025-2026年成为绝对主线
-> **关联深度报告**：[NVDA](file:///Users/johnny/Documents/jjc-money/docs/nvda-deep-analysis-20260424.md) · [GOOGL](file:///Users/johnny/Documents/jjc-money/docs/google-deep-analysis-20260424.md) · [MSFT](file:///Users/johnny/Documents/jjc-money/docs/msft-deep-analysis-20260501.md) · [META](file:///Users/johnny/Documents/jjc-money/docs/meta-deep-analysis-20260501.md) · [AMZN](file:///Users/johnny/Documents/jjc-money/docs/amzn-deep-analysis-20260501.md) · [AAPL](file:///Users/johnny/Documents/jjc-money/docs/AAPL_深度研判_金渐成视角.md) · [BRK](file:///Users/johnny/Documents/jjc-money/docs/brk-deep-analysis-20260424.md)
+> **关联深度报告**：[NVDA](file:///Users/johnny/Documents/jjc-money/docs/nvda-deep-analysis-20260424.md) · [GOOGL](file:///Users/johnny/Documents/jjc-money/docs/google-deep-analysis-20260424.md) · [MSFT](file:///Users/johnny/Documents/jjc-money/docs/msft-deep-analysis-20260501.md) · [META](file:///Users/johnny/Documents/jjc-money/docs/meta-deep-analysis-20260501.md) · [AMZN](file:///Users/johnny/Documents/jjc-money/docs/amzn-deep-analysis-20260501.md) · [AAPL](file:///Users/johnny/Documents/jjc-money/docs/AAPL_深度研判_金渐成视角.md) · [BRK](file:///Users/johnny/Documents/jjc-money/docs/brk-deep-analysis-20260424.md) · [TSM](file:///Users/johnny/Documents/jjc-money/docs/tsm-deep-analysis-20260501.md)
 
 ---
 
@@ -1060,7 +1060,7 @@ gantt
 | **META** | ~22x | **1.0** | 合理区间偏下沿 | ≤$556 | $556-$720 | $720-$810 |  [→](file:///Users/johnny/Documents/jjc-money/docs/meta-deep-analysis-20260501.md)  |
 | **AMZN** | ~30.7x | 1.0-1.4 | 🟡 合理区间 | ≤$240 | $240-$280 | $280+ |        [→](file:///Users/johnny/Documents/jjc-money/docs/amzn-deep-analysis-20260501.md)        |
 | **AAPL** | ~28-30x | ~2.0 | 类债券定价 | $230-$245 | $245-$280 | $280+ |        [→](file:///Users/johnny/Documents/jjc-money/docs/AAPL_深度研判_金渐成视角.md)        |
-| **TSM** | — | — | 负成本，跟随AI链 | ≤$200 | $200-$290 | $290+ |                                          —                                          |
+| **TSM** | ~25x | **0.63** | 🟢 低估 | ≤$300 | $300-$420 | $420+ |  [→](file:///Users/johnny/Documents/jjc-money/docs/tsm-deep-analysis-20260501.md)  |
 | **TSLA** | 无法用PE定价 | — | ⚠️ 偏离基本面 | 不建议加仓 | — | 逢高持续减仓 |                                          —                                          |
 
 ### PEG 信号灯对照表

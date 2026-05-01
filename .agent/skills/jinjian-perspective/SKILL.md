@@ -249,6 +249,7 @@ Step 5 — Output
 | **GOOGL** | ≤$140 | $226+ | [→](file:///Users/johnny/Documents/jjc-money/docs/google-deep-analysis-20260424.md) |
 | **AMZN** | ≤$240 | $280+ |        [→](file:///Users/johnny/Documents/jjc-money/docs/amzn-deep-analysis-20260501.md)        |
 | **AAPL** | $230-$245 | $280+ |        [→](file:///Users/johnny/Documents/jjc-money/docs/AAPL_深度研判_金渐成视角.md)        |
+| **TSM** | ≤$300 | $420+ |        [→](file:///Users/johnny/Documents/jjc-money/docs/tsm-deep-analysis-20260501.md)        |
 
 #### PEG 信号灯速查（方法论）
 
