@@ -241,14 +241,14 @@ Step 5 — Output
 > 当用户问 2026 年全年支撑位/目标位时，优先使用 `Global Market Outlook for 2026.md` 中的年度点位；本表仅保留为历史对照层。
 > 历史估值详情见各深度报告链接。
 
-| 标的 | 作者加仓区 | 作者减仓区 | 深度报告 |
-|------|:---------:|:---------:|:-------:|
-| **NVDA** | ≤$165 | $240+ | [→](file:///Users/johnny/Documents/jjc-money/docs/nvda-deep-analysis-20260424.md) |
-| **MSFT** | $355-$380 | $500+ | [→](file:///Users/johnny/Documents/jjc-money/docs/msft-deep-analysis-20260424.md) |
-| **META** | ≤$556 | $720+ | [→](file:///Users/johnny/Documents/jjc-money/docs/meta-deep-analysis-20260424.md) |
+| 标的 | 作者加仓区 | 作者减仓区 |                                        深度报告                                         |
+|------|:---------:|:---------:|:-----------------------------------------------------------------------------------:|
+| **NVDA** | ≤$165 | $240+ |  [→](file:///Users/johnny/Documents/jjc-money/docs/nvda-deep-analysis-20260424.md)  |
+| **MSFT** | $355-$380 | $500+ |  [→](file:///Users/johnny/Documents/jjc-money/docs/msft-deep-analysis-20260501.md)  |
+| **META** | ≤$556 | $720+ |  [→](file:///Users/johnny/Documents/jjc-money/docs/meta-deep-analysis-20260501.md)  |
 | **GOOGL** | ≤$140 | $226+ | [→](file:///Users/johnny/Documents/jjc-money/docs/google-deep-analysis-20260424.md) |
-| **AMZN** | — | — | [→](file:///Users/johnny/Documents/jjc-money/docs/AMZN_深度研判_金渐成视角.md) |
-| **AAPL** | $230-$245 | $280+ | [→](file:///Users/johnny/Documents/jjc-money/docs/AAPL_深度研判_金渐成视角.md) |
+| **AMZN** | — | — |        [→](file:///Users/johnny/Documents/jjc-money/docs/AMZN_深度研判_金渐成视角.md)        |
+| **AAPL** | $230-$245 | $280+ |        [→](file:///Users/johnny/Documents/jjc-money/docs/AAPL_深度研判_金渐成视角.md)        |
 
 #### PEG 信号灯速查（方法论）
 
@@ -865,7 +865,7 @@ Step 5 — [Execution Translation]
 ## MSFT — 金渐成视角
 
 **数据时点**: $385 / Forward PE ~24x / EPS增速 ~15% / as of 2026-04-25 (web search)
-**本地证据**: 2026-03月档案验证 + [MSFT深度报告](file:///Users/johnny/Documents/jjc-money/docs/msft-deep-analysis-20260424.md)
+**本地证据**: 2026-03月档案验证 + [MSFT深度报告](file:///Users/johnny/Documents/jjc-money/docs/msft-deep-analysis-20260501.md)
 
 微软从07年拿到现在，25倍收益，这不是运气，是认知变现。
 

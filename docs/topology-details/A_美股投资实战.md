@@ -2,7 +2,7 @@
 
 > **权重**：约 35%（全部内容中占比最大）
 > **时间浓度**：2024下半年起急剧增加，2025-2026年成为绝对主线
-> **关联深度报告**：[NVDA](file:///Users/johnny/Documents/jjc-money/docs/nvda-deep-analysis-20260424.md) · [GOOGL](file:///Users/johnny/Documents/jjc-money/docs/google-deep-analysis-20260424.md) · [MSFT](file:///Users/johnny/Documents/jjc-money/docs/msft-deep-analysis-20260424.md) · [META](file:///Users/johnny/Documents/jjc-money/docs/meta-deep-analysis-20260424.md) · [AMZN](file:///Users/johnny/Documents/jjc-money/docs/AMZN_深度研判_金渐成视角.md) · [AAPL](file:///Users/johnny/Documents/jjc-money/docs/AAPL_深度研判_金渐成视角.md) · [BRK](file:///Users/johnny/Documents/jjc-money/docs/brk-deep-analysis-20260424.md)
+> **关联深度报告**：[NVDA](file:///Users/johnny/Documents/jjc-money/docs/nvda-deep-analysis-20260424.md) · [GOOGL](file:///Users/johnny/Documents/jjc-money/docs/google-deep-analysis-20260424.md) · [MSFT](file:///Users/johnny/Documents/jjc-money/docs/msft-deep-analysis-20260501.md) · [META](file:///Users/johnny/Documents/jjc-money/docs/meta-deep-analysis-20260501.md) · [AMZN](file:///Users/johnny/Documents/jjc-money/docs/AMZN_深度研判_金渐成视角.md) · [AAPL](file:///Users/johnny/Documents/jjc-money/docs/AAPL_深度研判_金渐成视角.md) · [BRK](file:///Users/johnny/Documents/jjc-money/docs/brk-deep-analysis-20260424.md)
 
 ---
 
@@ -199,15 +199,15 @@ NVDA（芯片设计·卖铲子）→ TSM（芯片制造·铲子的铲子）→ M
 
 ### 2.1 美股七巨头 — 个股画像
 
-| 标的 | 提及频次 | 持仓定位 | 仓位占比 | 核心评价 | 详细报告 |
-|------|:--------:|---------|:--------:|---------|:--------:|
-| **NVDA** | 1,372 | 进取型·第一重仓 | ~42-48% | "印钞机"，AI芯片垄断者 | [→](file:///Users/johnny/Documents/jjc-money/docs/nvda-deep-analysis-20260424.md) |
+| 标的 | 提及频次 | 持仓定位 | 仓位占比 | 核心评价 |                                        详细报告                                         |
+|------|:--------:|---------|:--------:|---------|:-----------------------------------------------------------------------------------:|
+| **NVDA** | 1,372 | 进取型·第一重仓 | ~42-48% | "印钞机"，AI芯片垄断者 |  [→](file:///Users/johnny/Documents/jjc-money/docs/nvda-deep-analysis-20260424.md)  |
 | **GOOGL** | 516 | 进取型·第二重仓 | ~18-20% | "需要更多耐心"，护城河深但涨得慢 | [→](file:///Users/johnny/Documents/jjc-money/docs/google-deep-analysis-20260424.md) |
-| **MSFT** | 454 | 进取型·第三重仓 | ~11%→目标20% | "从07年拿到现在"，25倍收益 | [→](file:///Users/johnny/Documents/jjc-money/docs/msft-deep-analysis-20260424.md) |
-| **META** | 508 | 进取型·第四 | ~6.5% | "社交巨无霸"，大起大落是常态 | [→](file:///Users/johnny/Documents/jjc-money/docs/meta-deep-analysis-20260424.md) |
-| **AMZN** | 338 | 进取型·底仓 | 中等 | "不看PE看现金流"，机器人公司 | [→](file:///Users/johnny/Documents/jjc-money/docs/AMZN_深度研判_金渐成视角.md) |
-| **AAPL** | 320 | 进取型·压舱石 | ~7% | "类债券资产"，现金奶牛 | [→](file:///Users/johnny/Documents/jjc-money/docs/AAPL_深度研判_金渐成视角.md) |
-| **TSLA** | 512 | 进取型·边缘 | ~1.5-2% | "七巨头中最妖"，偏离基本面 | 无独立报告 |
+| **MSFT** | 454 | 进取型·第三重仓 | ~11%→目标20% | "从07年拿到现在"，25倍收益 |  [→](file:///Users/johnny/Documents/jjc-money/docs/msft-deep-analysis-20260501.md)  |
+| **META** | 508 | 进取型·第四 | ~6.5% | "社交巨无霸"，大起大落是常态 |  [→](file:///Users/johnny/Documents/jjc-money/docs/meta-deep-analysis-20260501.md)  |
+| **AMZN** | 338 | 进取型·底仓 | 中等 | "不看PE看现金流"，机器人公司 |        [→](file:///Users/johnny/Documents/jjc-money/docs/AMZN_深度研判_金渐成视角.md)        |
+| **AAPL** | 320 | 进取型·压舱石 | ~7% | "类债券资产"，现金奶牛 |        [→](file:///Users/johnny/Documents/jjc-money/docs/AAPL_深度研判_金渐成视角.md)        |
+| **TSLA** | 512 | 进取型·边缘 | ~1.5-2% | "七巨头中最妖"，偏离基本面 |                                        无独立报告                                        |
 
 #### 特斯拉特别说明
 
@@ -1034,16 +1034,16 @@ gantt
 
 ### 核心个股估值速查
 
-| 标的 | Forward PE | PEG | 估值判定 | 加仓甜蜜区 | 持有观望区 | 减仓触发区 | 详细报告 |
-|------|:---------:|:---:|---------|:---------:|:---------:|:---------:|:-------:|
-| **NVDA** | ~24x (FY27) | **0.69** | ★ 低估 | ≤$165 | $187-$240 | $240+ | [→](file:///Users/johnny/Documents/jjc-money/docs/nvda-deep-analysis-20260424.md) |
+| 标的 | Forward PE | PEG | 估值判定 | 加仓甜蜜区 | 持有观望区 | 减仓触发区 |                                        详细报告                                         |
+|------|:---------:|:---:|---------|:---------:|:---------:|:---------:|:-----------------------------------------------------------------------------------:|
+| **NVDA** | ~24x (FY27) | **0.69** | ★ 低估 | ≤$165 | $187-$240 | $240+ |  [→](file:///Users/johnny/Documents/jjc-money/docs/nvda-deep-analysis-20260424.md)  |
 | **GOOGL** | ~23-30x | 1.5-2.5 | 合理但不便宜 | ≤$140 | $140-$226 | $226+ | [→](file:///Users/johnny/Documents/jjc-money/docs/google-deep-analysis-20260424.md) |
-| **MSFT** | ~24x (FY27) | 0.9-1.6 | 历史底部区间 | $355-$380 | $380-$500 | $500+ | [→](file:///Users/johnny/Documents/jjc-money/docs/msft-deep-analysis-20260424.md) |
-| **META** | ~22x | **1.0** | 合理区间偏下沿 | ≤$556 | $556-$720 | $720-$810 | [→](file:///Users/johnny/Documents/jjc-money/docs/meta-deep-analysis-20260424.md) |
-| **AMZN** | ~31x | 2.8 | ⚠️ 合理偏贵 | — | 持有为主 | — | [→](file:///Users/johnny/Documents/jjc-money/docs/AMZN_深度研判_金渐成视角.md) |
-| **AAPL** | ~28-30x | ~2.0 | 类债券定价 | $230-$245 | $245-$280 | $280+ | [→](file:///Users/johnny/Documents/jjc-money/docs/AAPL_深度研判_金渐成视角.md) |
-| **TSM** | — | — | 负成本，跟随AI链 | ≤$200 | $200-$290 | $290+ | — |
-| **TSLA** | 无法用PE定价 | — | ⚠️ 偏离基本面 | 不建议加仓 | — | 逢高持续减仓 | — |
+| **MSFT** | ~24x (FY27) | 0.9-1.6 | 历史底部区间 | $355-$380 | $380-$500 | $500+ |  [→](file:///Users/johnny/Documents/jjc-money/docs/msft-deep-analysis-20260501.md)  |
+| **META** | ~22x | **1.0** | 合理区间偏下沿 | ≤$556 | $556-$720 | $720-$810 |  [→](file:///Users/johnny/Documents/jjc-money/docs/meta-deep-analysis-20260501.md)  |
+| **AMZN** | ~31x | 2.8 | ⚠️ 合理偏贵 | — | 持有为主 | — |        [→](file:///Users/johnny/Documents/jjc-money/docs/AMZN_深度研判_金渐成视角.md)        |
+| **AAPL** | ~28-30x | ~2.0 | 类债券定价 | $230-$245 | $245-$280 | $280+ |        [→](file:///Users/johnny/Documents/jjc-money/docs/AAPL_深度研判_金渐成视角.md)        |
+| **TSM** | — | — | 负成本，跟随AI链 | ≤$200 | $200-$290 | $290+ |                                          —                                          |
+| **TSLA** | 无法用PE定价 | — | ⚠️ 偏离基本面 | 不建议加仓 | — | 逢高持续减仓 |                                          —                                          |
 
 ### PEG 信号灯对照表
 
