@@ -246,9 +246,9 @@ Step 5 — Output
 | **NVDA** | ≤$165 | $240+ |  [→](file:///Users/johnny/Documents/jjc-money/docs/nvda-deep-analysis-20260424.md)  |
 | **MSFT** | $355-$380 | $500+ |  [→](file:///Users/johnny/Documents/jjc-money/docs/msft-deep-analysis-20260501.md)  |
 | **META** | ≤$556 | $720+ |  [→](file:///Users/johnny/Documents/jjc-money/docs/meta-deep-analysis-20260501.md)  |
-| **GOOGL** | ≤$140 | $226+ | [→](file:///Users/johnny/Documents/jjc-money/docs/google-deep-analysis-20260424.md) |
+| **GOOGL** | ≤$140 | $226+ | [→](file:///Users/johnny/Documents/jjc-money/docs/google-deep-analysis-20260502.md) |
 | **AMZN** | ≤$240 | $280+ |        [→](file:///Users/johnny/Documents/jjc-money/docs/amzn-deep-analysis-20260501.md)        |
-| **AAPL** | $230-$245 | $280+ |        [→](file:///Users/johnny/Documents/jjc-money/docs/AAPL_深度研判_金渐成视角.md)        |
+| **AAPL** | $230-$245 | $280+ |        [→](file:///Users/johnny/Documents/jjc-money/docs/aapl-deep-analysis-20260502.md)        |
 | **TSM** | ≤$300 | $420+ |        [→](file:///Users/johnny/Documents/jjc-money/docs/tsm-deep-analysis-20260501.md)        |
 
 #### PEG 信号灯速查（方法论）
