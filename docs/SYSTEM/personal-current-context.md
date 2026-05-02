@@ -37,8 +37,8 @@
 
 ## 当前执行参考
 
-- 交易卡片：[personal-portfolio-card.md](/Users/johnny/Documents/jjc-money/docs/personal-portfolio-card.md)
-- 长版计划：[personal-portfolio-plan.md](/Users/johnny/Documents/jjc-money/docs/personal-portfolio-plan.md)
+- 交易卡片：[personal-portfolio-card.md](/Users/johnny/Documents/jjc-money/docs/PORTFOLIO/personal-portfolio-card.md)
+- 长版计划：[personal-portfolio-plan.md](/Users/johnny/Documents/jjc-money/docs/PORTFOLIO/personal-portfolio-plan.md)
 
 ## 过期与优先级规则
 

@@ -27,7 +27,7 @@ public class JinjianRuntimeProperties {
 
     private String archiveOverviewPath = "";
 
-    private List<String> derivedDocRoots = new ArrayList<>(List.of("docs/topology-details", "docs/deep-analysis"));
+    private List<String> derivedDocRoots = new ArrayList<>(List.of("docs/topology-details", "docs/AAPL", "docs/AMZN", "docs/BRK", "docs/GOOGL", "docs/META", "docs/MSFT", "docs/NVDA", "docs/TSM", "docs/PORTFOLIO", "docs/SYSTEM"));
 
     private long freshPriceTtlSeconds = 180;
 

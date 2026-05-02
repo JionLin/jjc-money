@@ -2,7 +2,7 @@
 
 > 用途：一页速览。  
 > 原则：顺势而为、分批买卖、保留现金、不追高、不满仓。  
-> 长版说明见：[personal-portfolio-plan.md](/Users/johnny/Documents/jjc-money/docs/personal-portfolio-plan.md)
+> 长版说明见：[personal-portfolio-plan.md](/Users/johnny/Documents/jjc-money/docs/PORTFOLIO/personal-portfolio-plan.md)
 > `2026-05-01` 更新：`GOOGL` 已全部卖出；新增 `NVO` 退出节奏。
 > 本卡片已改为动态维护，不再在文件名中绑定日期。
 

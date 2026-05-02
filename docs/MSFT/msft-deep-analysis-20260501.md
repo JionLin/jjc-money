@@ -5,7 +5,7 @@
 
 **数据时点**: 2026-05-01 · 股价 ~$425.89 · 市值 ~$3.03万亿 · VIX 16.92
 **时间框架**: 年度展望 + 战术分析（Q3 FY2026 财报后更新）
-**本地证据**: [msft-deep-analysis-20260424.md](file:///Users/johnny/Documents/jjc-money/docs/msft-deep-analysis-20260424.md) · [26-02月.md](file:///Users/johnny/Documents/jjc-money/26year/26-02月.md) · [Global Market Outlook for 2026.md](file:///Users/johnny/Documents/jjc-money/26year/Global%20Market%20Outlook%20for%202026.md)
+**本地证据**: [msft-deep-analysis-20260424.md](file:///Users/johnny/Documents/jjc-money/docs/MSFT/msft-deep-analysis-20260424.md) · [26-02月.md](file:///Users/johnny/Documents/jjc-money/26year/26-02月.md) · [Global Market Outlook for 2026.md](file:///Users/johnny/Documents/jjc-money/26year/Global%20Market%20Outlook%20for%202026.md)
 
 ---
 

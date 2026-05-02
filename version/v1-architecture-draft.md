@@ -216,14 +216,14 @@ V1 中，证据分为五类：
 ### 8.2 Derived Docs
 
 - `docs/topology-details/`
-- `docs/*deep-analysis*.md`
+- `docs/{TICKER}/*deep-analysis*.md`
 - 其他分析与总结文档
 
 这些文档用于帮助理解，但不直接作为最终历史立场依据。
 
 ### 8.3 Personal Context
 
-- `docs/personal-current-context.md`
+- `docs/SYSTEM/personal-current-context.md`
 - 相关 portfolio card / plan
 
 这些属于动态上下文，不是永久真相。

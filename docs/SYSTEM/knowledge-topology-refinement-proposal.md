@@ -1,6 +1,6 @@
 # 知识图谱细化方案 — 从"目录"到"百科全书"
 
-> **现状诊断**：当前 [jinjiancheng-knowledge-topology.md](file:///Users/johnny/Documents/jjc-money/docs/jinjiancheng-knowledge-topology.md) 是一份 **L0 层级（最高维度目录扫描）**，它回答了"有什么"，但还没有回答"每个板块具体说了什么"、"板块之间怎么联动"、"观点如何演变"。
+> **现状诊断**：当前 [jinjiancheng-knowledge-topology.md](file:///Users/johnny/Documents/jjc-money/docs/SYSTEM/jinjiancheng-knowledge-topology.md) 是一份 **L0 层级（最高维度目录扫描）**，它回答了"有什么"，但还没有回答"每个板块具体说了什么"、"板块之间怎么联动"、"观点如何演变"。
 
 ---
 

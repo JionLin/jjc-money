@@ -21,7 +21,7 @@
 3. **历史观点要回源文件**
    现在仓库默认是 `source-first`：直接查 `22-25year/` 与 `26year/`，不再依赖月度索引。
 4. **个人组合不是永久事实**
-   如果你没给最新持仓，默认会参考 [personal-current-context.md](/Users/johnny/Documents/jjc-money/docs/personal-current-context.md)，但超过 14 天就要当成可能过期。
+   如果你没给最新持仓，默认会参考 [personal-current-context.md](/Users/johnny/Documents/jjc-money/docs/SYSTEM/personal-current-context.md)，但超过 14 天就要当成可能过期。
 
 ---
 
@@ -169,7 +169,7 @@ NVDA 的年度支撑位、目标位和失效条件怎么设？
 ### 使用仓库快照版
 
 ```text
-@[/jinjian-perspective] 直接按 docs/personal-current-context.md 这份快照分析，
+@[/jinjian-perspective] 直接按 docs/SYSTEM/personal-current-context.md 这份快照分析，
 但请先判断它是不是已经过期。
 ```
 

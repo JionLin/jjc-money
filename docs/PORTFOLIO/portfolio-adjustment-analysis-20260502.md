@@ -2,8 +2,8 @@
 
 > ⚠️ 以下为作者历史操作逻辑的框架推演，**不构成投资建议**。投资有风险，入市需谨慎。
 > **数据时点**: NVDA ~$200.31 / MSFT ~$414.20（2026-05-01 收盘）
-> **个人快照来源**: [personal-portfolio-plan.md](file:///Users/johnny/Documents/jjc-money/docs/personal-portfolio-plan.md)
-> **作者参照**: [author-portfolio-analysis-202604.md](file:///Users/johnny/Documents/jjc-money/docs/author-portfolio-analysis-202604.md)
+> **个人快照来源**: [personal-portfolio-plan.md](file:///Users/johnny/Documents/jjc-money/docs/PORTFOLIO/personal-portfolio-plan.md)
+> **作者参照**: [author-portfolio-analysis-202604.md](file:///Users/johnny/Documents/jjc-money/docs/PORTFOLIO/author-portfolio-analysis-202604.md)
 
 ---
 

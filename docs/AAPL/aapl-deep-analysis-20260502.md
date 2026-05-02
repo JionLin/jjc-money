@@ -328,4 +328,4 @@ $245(1倍) / $235(1倍) / $220(1.5倍) / $210(2倍) / $200(2.5倍)
 ---
 
 *本分析基于金渐成公开文章的投资逻辑框架，结合2026年5月2日实时数据及Apple Q2 FY2026财报（2026-04-30发布）完成。*
-*上一版分析（2026-04-24）见 [AAPL_深度研判_金渐成视角.md](file:///Users/johnny/Documents/jjc-money/docs/AAPL_深度研判_金渐成视角.md)*
+*上一版分析（2026-04-24）见 [AAPL_深度研判_金渐成视角.md](file:///Users/johnny/Documents/jjc-money/docs/AAPL/AAPL_深度研判_金渐成视角.md)*

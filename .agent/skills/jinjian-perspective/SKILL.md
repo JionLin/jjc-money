@@ -59,7 +59,7 @@ Before applying the style, enforce these rules:
 8. **Reasoning Display**: Show concise rationale and cited evidence. Do not expose hidden chain-of-thought; give the useful decision logic, not private scratchwork.
 9. **Personal Context Is Ephemeral**:
    - 用户年龄、现金流、可承受回撤、持仓、成本、目标仓位、交易卡片都属于动态上下文，不得写死为永久事实。
-   - 当用户引用个人仓位、交易卡片或个人计划时，优先读取用户本轮新输入；若本轮没有新输入，读取 `docs/personal-current-context.md` 作为默认个人快照。
+   - 当用户引用个人仓位、交易卡片或个人计划时，优先读取用户本轮新输入；若本轮没有新输入，读取 `docs/SYSTEM/personal-current-context.md` 作为默认个人快照。
    - 如果个人快照超过 14 天，或市场价格/财报发生重大变化，必须标注“个人快照可能过期”，并优先确认最新持仓或刷新市场数据。
    - 若用户新输入与旧文档冲突，永远以用户最新输入为准。
 
@@ -243,13 +243,13 @@ Step 5 — Output
 
 | 标的 | 作者加仓区 | 作者减仓区 |                                        深度报告                                         |
 |------|:---------:|:---------:|:-----------------------------------------------------------------------------------:|
-| **NVDA** | ≤$165 | $240+ |  [→](file:///Users/johnny/Documents/jjc-money/docs/nvda-deep-analysis-20260424.md)  |
-| **MSFT** | $355-$380 | $500+ |  [→](file:///Users/johnny/Documents/jjc-money/docs/msft-deep-analysis-20260501.md)  |
-| **META** | ≤$556 | $720+ |  [→](file:///Users/johnny/Documents/jjc-money/docs/meta-deep-analysis-20260501.md)  |
-| **GOOGL** | ≤$140 | $226+ | [→](file:///Users/johnny/Documents/jjc-money/docs/google-deep-analysis-20260502.md) |
-| **AMZN** | ≤$240 | $280+ |        [→](file:///Users/johnny/Documents/jjc-money/docs/amzn-deep-analysis-20260501.md)        |
-| **AAPL** | $230-$245 | $280+ |        [→](file:///Users/johnny/Documents/jjc-money/docs/aapl-deep-analysis-20260502.md)        |
-| **TSM** | ≤$300 | $420+ |        [→](file:///Users/johnny/Documents/jjc-money/docs/tsm-deep-analysis-20260501.md)        |
+| **NVDA** | ≤$165 | $240+ |  [→](file:///Users/johnny/Documents/jjc-money/docs/NVDA/nvda-deep-analysis-20260424.md)  |
+| **MSFT** | $355-$380 | $500+ |  [→](file:///Users/johnny/Documents/jjc-money/docs/MSFT/msft-deep-analysis-20260501.md)  |
+| **META** | ≤$556 | $720+ |  [→](file:///Users/johnny/Documents/jjc-money/docs/META/meta-deep-analysis-20260501.md)  |
+| **GOOGL** | ≤$140 | $226+ | [→](file:///Users/johnny/Documents/jjc-money/docs/GOOGL/google-deep-analysis-20260502.md) |
+| **AMZN** | ≤$240 | $280+ |        [→](file:///Users/johnny/Documents/jjc-money/docs/AMZN/amzn-deep-analysis-20260501.md)        |
+| **AAPL** | $230-$245 | $280+ |        [→](file:///Users/johnny/Documents/jjc-money/docs/AAPL/aapl-deep-analysis-20260502.md)        |
+| **TSM** | ≤$300 | $420+ |        [→](file:///Users/johnny/Documents/jjc-money/docs/TSM/tsm-deep-analysis-20260501.md)        |
 
 #### PEG 信号灯速查（方法论）
 
@@ -394,7 +394,7 @@ When the user asks about their own portfolio, separate four layers before giving
    - show “what to sell first / what to buy only on dips”
    - preserve dry powder explicitly
 
-Default rule: Do not produce a personalized price/quantity table unless the user has provided recent holdings, explicitly asks to use an existing snapshot, or `docs/personal-current-context.md` is available and not stale.
+Default rule: Do not produce a personalized price/quantity table unless the user has provided recent holdings, explicitly asks to use an existing snapshot, or `docs/SYSTEM/personal-current-context.md` is available and not stale.
 
 ### 2.5  Sector Selection Heuristic (赛道选择)
 
@@ -696,7 +696,7 @@ To provide the most accurate analysis, the model SHOULD proactively use the foll
   - **情景应对表** → `docs/topology-details/A_美股投资实战.md` §3.5
   - **三账户体系** → `docs/topology-details/C_仓位管理与配置.md` §2.2
   - **金字塔参数** → `docs/topology-details/C_仓位管理与配置.md` §2.3
-  - **个股深度报告** → `docs/*-deep-analysis-*.md` (NVDA/MSFT/GOOGL/META/[AMZN](file:///Users/johnny/Documents/jjc-money/docs/amzn-deep-analysis-20260501.md)/AAPL/BRK)
+  - **个股深度报告** → `docs/{TICKER}/*-deep-analysis-*.md` (NVDA/MSFT/GOOGL/META/[AMZN](file:///Users/johnny/Documents/jjc-money/docs/AMZN/amzn-deep-analysis-20260501.md)/AAPL/BRK)
   - **Override Rule**:
     `fresh market/fundamental data`
     → `Global Market Outlook for 2026.md` (when user asks 2026 annual support/targets)
@@ -705,8 +705,8 @@ To provide the most accurate analysis, the model SHOULD proactively use the foll
 
 - **Personal Portfolio Context（个人组合上下文）**
   - If the user provides fresh holdings/constraints in the current message, use those first.
-  - Otherwise, look for `docs/personal-current-context.md` and read it as the default personal snapshot.
-  - Use linked `docs/personal-portfolio-card-*.md` and `docs/personal-portfolio-plan-*.md` only as supporting execution references.
+  - Otherwise, look for `docs/SYSTEM/personal-current-context.md` and read it as the default personal snapshot.
+  - Use linked `docs/PORTFOLIO/personal-portfolio-card*.md` and `docs/PORTFOLIO/personal-portfolio-plan*.md` only as supporting execution references.
   - Treat personal context files as user-provided snapshots, not permanent truth.
   - If file contents and the latest user message conflict, latest user message wins.
   - Never assume old price bands are still valid without fresh market data.
@@ -797,7 +797,7 @@ Whenever the user asks for personal portfolio analysis, follow these steps:
 ```
 Step 1 — [Load Personal Context]
   → If the current user message includes updated holdings/constraints, use them first.
-  → Otherwise read docs/personal-current-context.md if available.
+  → Otherwise read docs/SYSTEM/personal-current-context.md if available.
   → Extract snapshot date, holdings, cash, constraints, target intent, and linked plan/card files.
   → Mark stale fields explicitly if the snapshot is older than 14 days.
 
@@ -806,7 +806,7 @@ Step 2 — [Refresh Market Context]
   → If fresh data is unavailable, label output as based on historical/user snapshot.
 
 Step 3 — [Reconcile Conflicts]
-  → Latest user message > docs/personal-current-context.md > latest trading card > older plan > historical framework.
+  → Latest user message > docs/SYSTEM/personal-current-context.md > latest trading card > older plan > historical framework.
   → If the user says the plan changed, update the analysis around the new plan.
 
 Step 4 — [Risk Calibration]
@@ -866,7 +866,7 @@ Step 5 — [Execution Translation]
 ## MSFT — 金渐成视角
 
 **数据时点**: $385 / Forward PE ~24x / EPS增速 ~15% / as of 2026-04-25 (web search)
-**本地证据**: 2026-03月档案验证 + [MSFT深度报告](file:///Users/johnny/Documents/jjc-money/docs/msft-deep-analysis-20260501.md)
+**本地证据**: 2026-03月档案验证 + [MSFT深度报告](file:///Users/johnny/Documents/jjc-money/docs/MSFT/msft-deep-analysis-20260501.md)
 
 微软从07年拿到现在，25倍收益，这不是运气，是认知变现。
 

@@ -46,7 +46,16 @@ lab:
     archive-overview-path: ${LAB_RUNTIME_ARCHIVE_OVERVIEW_PATH:}
     derived-doc-roots:
       - ${LAB_RUNTIME_DERIVED_ROOT_1:docs/topology-details}
-      - ${LAB_RUNTIME_DERIVED_ROOT_2:docs/deep-analysis}
+      - ${LAB_RUNTIME_DERIVED_ROOT_2:docs/AAPL}
+      - ${LAB_RUNTIME_DERIVED_ROOT_3:docs/AMZN}
+      - ${LAB_RUNTIME_DERIVED_ROOT_4:docs/BRK}
+      - ${LAB_RUNTIME_DERIVED_ROOT_5:docs/GOOGL}
+      - ${LAB_RUNTIME_DERIVED_ROOT_6:docs/META}
+      - ${LAB_RUNTIME_DERIVED_ROOT_7:docs/MSFT}
+      - ${LAB_RUNTIME_DERIVED_ROOT_8:docs/NVDA}
+      - ${LAB_RUNTIME_DERIVED_ROOT_9:docs/TSM}
+      - ${LAB_RUNTIME_DERIVED_ROOT_10:docs/PORTFOLIO}
+      - ${LAB_RUNTIME_DERIVED_ROOT_11:docs/SYSTEM}
     fresh-price-ttl-seconds: ${LAB_RUNTIME_FRESH_PRICE_TTL_SECONDS:180}
     fresh-valuation-ttl-seconds: ${LAB_RUNTIME_FRESH_VALUATION_TTL_SECONDS:600}
     fresh-filings-ttl-seconds: ${LAB_RUNTIME_FRESH_FILINGS_TTL_SECONDS:1800}

@@ -41,7 +41,7 @@ Some archive files may include mixed encodings or non-text bytes (`\0`). Verify 
 - Locate content by exact article heading, publication date, or local section markers rather than approximate position.
 - Be careful with bulk replacements: repeated phrases can appear in both article text and comment sections.
 - Trust the source files if any derived notes or older docs disagree.
-- **Skill Update Rule**: Whenever you modify or upgrade any `SKILL.md` file under `.agent/skills/`, you **MUST simultaneously** review and update its corresponding user documentation (e.g., `docs/skill-prompt-guide.md`). Ensure that version numbers, new mental models, logic routing, and prompt templates in the guide accurately reflect the latest `SKILL.md`.
+- **Skill Update Rule**: Whenever you modify or upgrade any `SKILL.md` file under `.agent/skills/`, you **MUST simultaneously** review and update its corresponding user documentation (e.g., `docs/SYSTEM/skill-prompt-guide.md`). Ensure that version numbers, new mental models, logic routing, and prompt templates in the guide accurately reflect the latest `SKILL.md`.
 
 ## Key files
 
