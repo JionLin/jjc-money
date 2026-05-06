@@ -11,3 +11,6 @@ server/.settings/
 server/.classpath
 server/.project
 target
+
+# IntelliJ IDEA
+.idea/
